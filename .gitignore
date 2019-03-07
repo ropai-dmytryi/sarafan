@@ -1,0 +1,6 @@
+.gradle
+.idea
+gradle
+node_modules
+out
+yarn-error.log
