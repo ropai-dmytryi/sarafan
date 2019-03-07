@@ -1,16 +1,23 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es5",
-    "jsx": "react",
-    "baseUrl": ".",
-    "importHelpers": true,
-  },
-  "paths": {
-    "*": ["src/*", "node_modules/*"]
-  },
-  "include": ["src/main/resources/static/js/*"]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "react",
+        "paths": {
+            "*": [
+              "src/main/resources/static/js/*",
+              "node_modules/*"
+            ]
+          },
+      
+    },
+  
+  "include": ["src/main/resources/static/js/*"],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -1,36 +1,30 @@
-const path =  require('path');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: 'development',
-  devtool: 'source-map',
-  entry: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'main.tsx'),
+  mode: "development",
+  devtool: "source-map",
+  entry: path.join(__dirname, "src", "main", "resources", "static", "js", "main.tsx"),
   devServer: {
-    contentBase: './dist',
+    contentBase: "./dist",
     compress: true,
     port: 8000,
-    allowedHosts: [
-      'localhost:9090'
-    ]
+    allowedHosts: ["localhost:9090"]
   },
   module: {
     rules: [
       {
-        test: [ /\.ts$/, /\.tsx$/],
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      },
+        test: [/\.tsx?$/, /\.ts?$/],
+        use: ["awesome-typescript-loader"]
+      }
     ]
   },
   resolve: {
-      modules: [
-          path.join(__dirname, 'src', 'main', 'resources', 'static', 'js'),
-          path.join(__dirname, 'node_modules'),
-      ],
-      extensions: ['.ts', '.tsx', '.js']
-  }
-}
+    modules: [
+      path.join(__dirname, "src", "main", "resources", "static", "js"),
+      path.join(__dirname, "node_modules")
+    ],
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
+  },
+  plugins: [new HtmlWebpackPlugin()],
+};
