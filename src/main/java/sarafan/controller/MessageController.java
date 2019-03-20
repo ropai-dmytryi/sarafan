@@ -43,13 +43,13 @@ public class MessageController {
         return messageRepo.save(message);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     public Message update(@PathVariable("id") Message messageFromDb, @RequestBody Message message) {
         BeanUtils.copyProperties(message, messageFromDb, "id");
         return messageRepo.save(messageFromDb);
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Message message) {
         messageRepo.delete(message);
     }

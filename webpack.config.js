@@ -4,7 +4,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   mode: "development",
   devtool: "source-map",
-  entry: path.join(__dirname, "src", "main", "resources", "static", "js", "main.tsx"),
+  entry: path.join(
+    __dirname,
+    "src",
+    "main",
+    "resources",
+    "static",
+    "js",
+    "main.tsx"
+  ),
   devServer: {
     contentBase: "./dist",
     compress: true,
@@ -14,7 +22,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: [/\.tsx?$/, /\.ts?$/],
+        enforce: "pre",
+        test: /\.tsx?$/,
+        loader: "tslint-loader"
+      },
+      {
+        test: /\.tsx?$/,
         use: ["awesome-typescript-loader"]
       }
     ]
@@ -26,5 +39,5 @@ module.exports = {
     ],
     extensions: [".ts", ".tsx", ".js", ".jsx"]
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [new HtmlWebpackPlugin()]
 };
