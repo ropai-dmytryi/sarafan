@@ -17,7 +17,7 @@ module.exports = {
     contentBase: "./dist",
     compress: true,
     port: 8000,
-    allowedHosts: ["localhost:9090"]
+    allowedHosts: ["localhost:9091"]
   },
   module: {
     rules: [

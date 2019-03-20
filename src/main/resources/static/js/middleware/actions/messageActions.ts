@@ -32,8 +32,6 @@ export const addMessage = (text: MessageModel) => (dispatch: any) => {
 };
 
 export const deleteMessage = (id: number) => (dispatch: any) => {
-    console.log("id")
-    console.log(id)
     fetch(GET_ALL_MESSAGES_URL + '/' + id, {
         method: 'DELETE',
     }).then(dispatch({ type: DELETE_MESSAGE, id }))

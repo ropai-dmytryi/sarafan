@@ -5,13 +5,20 @@ import * as MessageActions from '../../middleware/actions/messageActions';
 import Message from './Message';
 import { MessageModel } from './../../model/Message';
 
-class Feed extends React.Component<any, any> {
+interface FeedState {
+  message: MessageModel;
+}
+
+class Feed extends React.Component<any, FeedState> {
   public constructor(props: any) {
     super(props);
 
     this.state = {
-      message: '',
-      disabled: true,
+      message: {
+          id: 0,
+          text: '',
+          creationDate: new Date
+      },
     };
   }
 
@@ -20,43 +27,50 @@ class Feed extends React.Component<any, any> {
   }
 
   public render() {
-    const { message, disabled } = this.state;
-    const { messages, deleteMessage } = this.props;
+    const { message } = this.state;
+    const { messages, deleteMessage, handleUpdateChange } = this.props;
    
     return (
       <div>
         <div>Sarafan</div>
         <div className="row">
           <div className="col-sm">
-            <input type="text" value={ message } onChange={ this.handleChange } />
+            <input type="text" value={ message.text } onChange={ this.handleChange } />
           </div>
           <div className="col-sm">
-            <button type="submit" disabled={ disabled } onClick={ this.handleSubmit }>Send</button>
+            <button type="submit" disabled={ !message.text } onClick={ this.handleSubmit }>Send</button>
+          </div>
+          <div className="col-sm">
+            <button type="submit" disabled={ !message.text } onClick={ this.clear }>Clear</button>
           </div>
         </div>
         <div>
         { messages.map((message: MessageModel, index: number) => (
-          <Message key={ index } message={ message } deleteMessage={ deleteMessage }/>
+          <Message key={ index } message={ message } deleteMessage={ deleteMessage } handleUpdateChange={ handleUpdateChange }/>
         )) }
         </div>
       </div>
     );
   }
 
-  private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.value) {
-      this.setState({ message: e.target.value, disabled: true });
-    } else {
-      this.setState({ message: e.target.value, disabled: false });
-    }
+  private clear = () => {
+    this.setState({ message: {id: 0, text: '', creationDate: new Date} })
   }
+
+  private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ message: { ...this.state.message, text:  e.target.value } });
+  }
+
+  public handleUpdateChange = (messageForUpdate: MessageModel) => {
+    this.setState({ message: messageForUpdate});
+  } 
 
   private handleSubmit = () => {
     const { addMessage } = this.props;
     const { message } = this.state;
 
-    addMessage(message);
-    this.setState({ message: '', disabled: true });
+    addMessage(message.text);
+    this.setState({ message: {...this.state.message, text: ''} });
   }
 }
 

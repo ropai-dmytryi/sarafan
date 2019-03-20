@@ -28,9 +28,7 @@ const addToMessages = (messageArray: MessageModel[], newMessage: MessageModel) =
 
 const removeMesage = (messageArray: MessageModel[], id: number) => {
   const removeIndex = messageArray.findIndex(message => message.id === id);
-  console.log('index')
-  console.log(removeIndex)
-  delete messageArray[removeIndex];
+  messageArray.splice(removeIndex, 1);
   console.log(messageArray)
   return [...messageArray];
 }
