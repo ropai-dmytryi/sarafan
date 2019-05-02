@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './ui/components/App';
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory}  from 'history';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { Router } from 'react-router';
@@ -15,9 +15,9 @@ const history = createBrowserHistory();
 const store = applyMiddleware(thunk, routerMiddleware(history))(createStore)(rootReducer);
 
 ReactDOM.render(
-  <Provider store={ store }>
-    <Router history={ history }>
-      <Route path="/" component={ App } />
-    </Router>
-  </Provider>,
-  document.getElementById('root') as HTMLElement);
+    <Provider store={ store }>
+        <Router history={ history }>
+            <Route path="/" component={ App }/>
+        </Router>
+    </Provider>,
+    document.getElementById('root') as HTMLElement);

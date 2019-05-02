@@ -5,6 +5,7 @@
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "commonjs",
+        "lib": [ "es6", "dom" ],
         "target": "es5",
         "jsx": "react",
         "paths": {
@@ -12,8 +13,7 @@
               "src/main/resources/static/js/*",
               "node_modules/*"
             ]
-          },
-      
+          }
     },
   
   "include": ["src/main/resources/static/js/*"],
