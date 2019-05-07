@@ -13,7 +13,8 @@ class Feed extends React.Component<any, any> {
         return (
             <div>
                 <div>Sarafan</div>
-                <Form onSubmit={ updatedMessage.text ? updateMessage : addMessage }/>
+                <a href="/logout">Logout</a>
+                <Form onSubmit={ updatedMessage.text ? updateMessage : addMessage } initialValues={ updatedMessage } />
                 <MessageList/>
             </div>
         );

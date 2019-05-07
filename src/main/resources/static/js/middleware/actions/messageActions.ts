@@ -6,10 +6,11 @@ import {
     DELETE_MESSAGE,
     SET_UPDATE_MESSAGE,
     UPDATE_MESSAGE,
-    SWITCH_TO_ADD_ACTION
+    SWITCH_TO_ADD_ACTION,
 } from '../constants/constants';
+import { Dispatch } from 'redux';
 
-export const getAllMessages = () => (dispatch: any) => {
+export const getAllMessages = () => (dispatch: Dispatch) => {
     fetch(GET_ALL_MESSAGES_URL)
         .then((response) => response.json())
         .then((data) => dispatch(success(data)))
@@ -21,7 +22,7 @@ export const getAllMessages = () => (dispatch: any) => {
     });
 };
 
-export const addMessage = (message: IMessage) => (dispatch: any) => {
+export const addMessage = (message: IMessage) => (dispatch: Dispatch) => {
     const text = message.text;
     fetch(GET_ALL_MESSAGES_URL, {
         method: 'POST',
@@ -39,7 +40,7 @@ export const addMessage = (message: IMessage) => (dispatch: any) => {
     });
 };
 
-export const updateMessage = (message: IMessage) => (dispatch: any) => {
+export const updateMessage = (message: IMessage) => (dispatch: Dispatch) => {
     const {id, text} = message;
     fetch(GET_ALL_MESSAGES_URL + '/' + id, {
         method: 'PUT',
@@ -57,17 +58,17 @@ export const updateMessage = (message: IMessage) => (dispatch: any) => {
     });
 };
 
-export const deleteMessage = (id: number) => (dispatch: any) => {
+export const deleteMessage = (id: number) => (dispatch: Dispatch) => {
     fetch(GET_ALL_MESSAGES_URL + '/' + id, {
         method: 'DELETE',
-    }).then(dispatch({type: DELETE_MESSAGE, id}))
-        .catch((errorMessage) => console.log(errorMessage));
+    }).then(() => dispatch({type: DELETE_MESSAGE, id}))
+        .catch((errorMessage: string) => console.log(errorMessage));
 };
 
-export const setUpdateMessage = (message: IMessage) => (dispatch: any) => {
+export const setUpdateMessage = (message: IMessage) => (dispatch: Dispatch) => {
     dispatch({type: SET_UPDATE_MESSAGE, message});
 };
 
-export const switchToAddAction = () => (dispatch: any) => {
-    dispatch({type: SWITCH_TO_ADD_ACTION})
+export const switchToAddAction = () => (dispatch: Dispatch) => {
+    dispatch({type: SWITCH_TO_ADD_ACTION});
 };

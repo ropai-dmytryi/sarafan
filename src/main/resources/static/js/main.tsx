@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './ui/components/App';
-import { createBrowserHistory}  from 'history';
+import { createBrowserHistory } from 'history';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { Router } from 'react-router';

@@ -5,7 +5,7 @@ const Form = (props: any) => {
     const { handleSubmit, initialValues } = props;
     const action = initialValues.text ? 'Update' : 'Add';
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={ handleSubmit }>
             <Field name="text" component="input" type="text"/>
             <button type="submit">{ action }</button>
         </form>

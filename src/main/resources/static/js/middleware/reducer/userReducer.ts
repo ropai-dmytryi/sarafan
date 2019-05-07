@@ -1,18 +1,20 @@
 import {IMessage} from '../../model/Message';
 import {
     GET_ALL_MESSAGES, SET_UPDATE_MESSAGE, SWITCH_TO_ADD_ACTION,
-    ADD_MESSAGE, UPDATE_MESSAGE, DELETE_MESSAGE
+    ADD_MESSAGE, UPDATE_MESSAGE, DELETE_MESSAGE,
 } from 'middleware/constants/constants';
 
 const initialState: {
     messages: IMessage[];
     updatedMessage: IMessage;
+    user: any;
 } = {
     messages: [],
     updatedMessage: {
         id: 0,
         text: '',
     },
+    user: {},
 };
 
 const userReducer = (state = initialState, action: any) => {
