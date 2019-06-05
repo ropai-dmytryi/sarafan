@@ -9,6 +9,7 @@ import {
     SWITCH_TO_ADD_ACTION,
 } from '../constants/constants';
 import { Dispatch } from 'redux';
+import { sendMessage, addHandler } from 'util/WebSocket';
 
 export const getAllMessages = () => (dispatch: Dispatch) => {
     fetch(GET_ALL_MESSAGES_URL)
@@ -23,18 +24,12 @@ export const getAllMessages = () => (dispatch: Dispatch) => {
 };
 
 export const addMessage = (message: IMessage) => (dispatch: Dispatch) => {
-    const text = message.text;
-    fetch(GET_ALL_MESSAGES_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({text}),
-    }).then((response) => response.json())
-        .then((data) => dispatch(success(data)))
-        .catch((errorMessage) => console.log(errorMessage));
+    sendMessage(message);
+};
 
-    const success = (message: any) => ({
+export const addHeader = () => (dispatch: Dispatch) => {
+    addHandler((data: IMessage) => dispatch(success(data)));
+    const success = (message: IMessage) => ({
         type: ADD_MESSAGE,
         message,
     });

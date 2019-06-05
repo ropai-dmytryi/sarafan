@@ -4,12 +4,17 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as MessageActions from '../../middleware/actions/messageActions';
 import Form from './Form';
 import MessageList from './MessageList';
+import { connectToWs } from 'util/WebSocket';
 
 class Feed extends React.Component<any, any> {
 
+    public componentDidMount() {
+        connectToWs();
+        this.props.addHeader();
+    }
+
     public render() {
         const { addMessage, updateMessage, updatedMessage } = this.props;
-
         return (
             <div>
                 <div>Sarafan</div>
@@ -29,6 +34,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     addMessage: MessageActions.addMessage,
     updateMessage: MessageActions.updateMessage,
     switchToAddAction: MessageActions.switchToAddAction,
+    addHeader: MessageActions.addHeader,
 }, dispatch);
 
 export default connect(
