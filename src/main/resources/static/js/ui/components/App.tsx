@@ -8,7 +8,7 @@ class App extends React.Component {
     public render() {
         const result = frontendData.profile ? (
             <div className="App">
-                <Feed/>
+                <Feed user={ frontendData.profile }/>
             </div>
         ) : (
             <div className="App">

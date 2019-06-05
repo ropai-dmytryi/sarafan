@@ -12,9 +12,7 @@ export const connectToWs = () => {
     const socket = new SockJS(ENDPOINT_URL);
     stompClient = Stomp.over(socket);
     stompClient.connect({}, (frame: any) => {
-        console.log('Connected: ' + frame);
         stompClient.subscribe(SUBSCRIBE_URL, (message) => {
-            console.log(handlers)
             handlers.forEach((handler: any) => handler(JSON.parse(message.body)));
         });
     });
