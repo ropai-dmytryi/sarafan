@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, reset } from 'redux-form';
+import { Dispatch } from 'redux';
 
 const Form = (props: any) => {
     const { handleSubmit, initialValues } = props;
@@ -12,7 +13,10 @@ const Form = (props: any) => {
     );
 };
 
+const clearForm = (result: any, dispatch: Dispatch) => dispatch(reset('mainForm'));
+
 export default reduxForm({
     form: 'mainForm',
+    onSubmitSuccess: clearForm,
     enableReinitialize: true, // this is important option for refresh form (for initial values)
 })(Form);

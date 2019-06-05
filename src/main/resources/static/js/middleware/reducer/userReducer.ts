@@ -24,13 +24,13 @@ const userReducer = (state = initialState, action: any) => {
         case ADD_MESSAGE:
             return {...state, messages: addToMessages(state.messages, action.message)};
         case UPDATE_MESSAGE:
-            return {...state, messages: updateMessage(state.messages, action.message)};
+            return {...state, messages: updateMessage(state.messages, action.message), updatedMessage: { id: 0, text: '' }};
         case DELETE_MESSAGE:
             return {...state, messages: removeMessage(state.messages, action.id)};
         case SET_UPDATE_MESSAGE:
             return {...state, updatedMessage: action.message};
         case SWITCH_TO_ADD_ACTION:
-            return {...state, updateMessage: {id: 0, text: ''}};
+            return {...state, updatedMessage: {id: 0, text: ''}};
         default:
             return state;
     }
