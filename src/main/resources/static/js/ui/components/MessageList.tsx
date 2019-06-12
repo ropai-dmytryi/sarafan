@@ -2,8 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import Message from './Message';
-import { IMessage } from '../../model/Message';
-import * as MessageActions from '../../middleware/actions/messageActions';
+import { IMessage } from 'model/Message';
+import * as MessageActions from 'store/actions/messageActions';
 
 class MessageList extends React.Component<any, any> {
     public componentDidMount() {

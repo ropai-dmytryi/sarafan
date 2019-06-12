@@ -1,8 +1,8 @@
-import {IMessage} from '../../model/Message';
+import { IMessage } from 'model/Message';
 import {
     GET_ALL_MESSAGES, SET_UPDATE_MESSAGE, SWITCH_TO_ADD_ACTION,
     ADD_MESSAGE, UPDATE_MESSAGE, DELETE_MESSAGE,
-} from 'middleware/constants/constants';
+} from 'store/constants/constants';
 
 const initialState: {
     messages: IMessage[];

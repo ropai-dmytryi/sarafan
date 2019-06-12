@@ -1,5 +1,5 @@
-import {GET_ALL_MESSAGES_URL} from '../constants/urlConstant';
-import {IMessage} from '../../model/Message';
+import { GET_ALL_MESSAGES_URL } from 'store/constants/urlConstant';
+import { IMessage } from 'model/Message';
 import {
     GET_ALL_MESSAGES,
     ADD_MESSAGE,
@@ -7,9 +7,10 @@ import {
     SET_UPDATE_MESSAGE,
     UPDATE_MESSAGE,
     SWITCH_TO_ADD_ACTION,
-} from '../constants/constants';
+} from 'store/constants/constants';
 import { Dispatch } from 'redux';
 import { sendMessage, addHandler } from 'util/WebSocket';
+
 
 export const getAllMessages = () => (dispatch: Dispatch) => {
     fetch(GET_ALL_MESSAGES_URL)

@@ -1,6 +1,6 @@
 import * as SockJS from 'sockjs-client';
 import { Stomp, CompatClient } from '@stomp/stompjs';
-import { IMessage } from './../model/Message';
+import { IMessage } from 'model/Message';
 
 let stompClient: CompatClient = null;
 const handlers: any = [];

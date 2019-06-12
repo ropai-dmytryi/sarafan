@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as MessageActions from '../../middleware/actions/messageActions';
+import * as MessageActions from 'store/actions/messageActions';
 import Form from './Form';
 import MessageList from './MessageList';
 import { connectToWs } from 'util/WebSocket';
@@ -34,7 +34,7 @@ class Feed extends React.Component<any, any> {
 }
 
 const ToolBarComp = (props: any) => {
-    const classes = useStyles();
+    const classes = useStyles({});
     const { user } = props;
     return(
         <div className={ classes.root }>
@@ -57,9 +57,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
     },
     title: {
       flexGrow: 1,
