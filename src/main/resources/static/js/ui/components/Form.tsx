@@ -1,20 +1,26 @@
 import * as React from 'react';
 import { Field, reduxForm, reset } from 'redux-form';
 import { Dispatch } from 'redux';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Grid } from '@material-ui/core';
 
 const Form = (props: any) => {
     const { handleSubmit, initialValues } = props;
     const action = initialValues.text ? 'Update' : 'Add';
     return (
         <form onSubmit={ handleSubmit }>
-            <Field
-                name="text"
-                component={ renderField }
-            />
-            <Button type="submit" variant="contained">
-                { action }
-            </Button>
+            <Grid container spacing={ 2 }>
+                <Grid item xs={ 10 }>
+                    <Field
+                        name="text"
+                        component={ renderField }
+                    />
+                </Grid>
+                <Grid item xs={ 2 }>
+                    <Button type="submit" variant="contained">
+                        { action }
+                    </Button>
+                </Grid>
+            </Grid>
         </form>
     );
 };

@@ -5,3 +5,5 @@ node_modules
 out
 yarn-error.log
 build
+sarafan.mv.db
+sarafan.trace.db
