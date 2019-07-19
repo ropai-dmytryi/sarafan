@@ -2,9 +2,6 @@ package sarafan.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,17 +12,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sarafan.domain.Message;
 import sarafan.domain.Views;
+import sarafan.dto.EventType;
+import sarafan.dto.ObjectType;
 import sarafan.repo.MessageRepo;
+import sarafan.sender.WsSender;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 @RestController
 @RequestMapping("message")
 public class MessageController {
 
-    @Autowired
-    private MessageRepo messageRepo;
+    private final MessageRepo messageRepo;
+    private final BiConsumer<EventType, Message> wsSender;
+
+    public MessageController(MessageRepo messageRepo, WsSender wsSender) {
+        this.messageRepo = messageRepo;
+        this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.IdName.class);
+    }
 
     @GetMapping
     @JsonView(Views.IdName.class)
@@ -42,23 +48,27 @@ public class MessageController {
     @PostMapping
     public Message create(@RequestBody Message message) {
         message.setCreationDate(LocalDateTime.now());
-        return messageRepo.save(message);
+        Message createdMessage = messageRepo.save(message);
+
+        wsSender.accept(EventType.CREATE, createdMessage);
+
+        return createdMessage;
     }
 
     @PutMapping("{id}")
     public Message update(@PathVariable("id") Message messageFromDb, @RequestBody Message message) {
         BeanUtils.copyProperties(message, messageFromDb, "id");
-        return messageRepo.save(messageFromDb);
+        Message updatedMessage = messageRepo.save(messageFromDb);
+
+        wsSender.accept(EventType.UPDATE, updatedMessage);
+
+        return updatedMessage;
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Message message) {
         messageRepo.delete(message);
+        wsSender.accept(EventType.REMOVE, message);
     }
 
-    @MessageMapping("/changeMessage")
-    @SendTo("/topic/activity")
-    public Message message(Message message) {
-        return messageRepo.save(message);
-    }
 }

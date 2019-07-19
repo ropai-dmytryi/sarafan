@@ -7,9 +7,11 @@ import {
     SET_UPDATE_MESSAGE,
     UPDATE_MESSAGE,
     SWITCH_TO_ADD_ACTION,
+    HANDLE_WS_RESPONSE,
 } from 'store/constants/constants';
 import { Dispatch } from 'redux';
-import { sendMessage, addHandler } from 'util/WebSocket';
+import { addHandler } from 'util/WebSocket';
+import { IWsRenponse } from './../../model/IWsResponse';
 
 
 export const getAllMessages = () => (dispatch: Dispatch) => {
@@ -25,14 +27,28 @@ export const getAllMessages = () => (dispatch: Dispatch) => {
 };
 
 export const addMessage = (message: IMessage) => (dispatch: Dispatch) => {
-    sendMessage(message);
+    const text = message.text;
+    fetch(GET_ALL_MESSAGES_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({text}),
+    }).then((response) => response.json())
+        .then((data) => dispatch(success(data)))
+        .catch((errorMessage) => console.log(errorMessage));
+
+    const success = (message: any) => ({
+            type: ADD_MESSAGE,
+            message,
+        });
 };
 
 export const addHeader = () => (dispatch: Dispatch) => {
-    addHandler((data: IMessage) => dispatch(success(data)));
-    const success = (message: IMessage) => ({
-        type: ADD_MESSAGE,
-        message,
+    addHandler((data: IWsRenponse) => { dispatch(success(data)); }); // handle websocket response from server
+    const success = (response: IWsRenponse) => ({
+        type: HANDLE_WS_RESPONSE,
+        response,
     });
 };
 
