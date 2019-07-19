@@ -14,6 +14,9 @@ import java.util.function.BiConsumer;
 
 @Component
 public class WsSender {
+
+    private static final String TOPIC_ACTIVITY_MAPPING = "/topic/activity";
+
     private final SimpMessagingTemplate template;
     private final ObjectMapper mapper;
 
@@ -36,7 +39,7 @@ public class WsSender {
                 throw new RuntimeException(e);
             }
 
-            template.convertAndSend("/topic/activity", new WsEventDto(objectType, eventType, value));
+            template.convertAndSend(TOPIC_ACTIVITY_MAPPING, new WsEventDto(objectType, eventType, value));
         };
     }
 }

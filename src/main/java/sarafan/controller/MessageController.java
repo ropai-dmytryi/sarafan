@@ -16,8 +16,11 @@ import sarafan.service.MessageService;
 import java.util.List;
 
 @RestController
-@RequestMapping("message")
+@RequestMapping(MessageController.MESSAGE_MAPPING)
 public class MessageController {
+
+    private static final String ID_PARAM = "{id}";
+    public static final String MESSAGE_MAPPING = "message";
 
     private MessageService messageService;
 
@@ -36,13 +39,13 @@ public class MessageController {
         return messageService.create(message);
     }
 
-    @PutMapping("{id}")
-    public Message update(@PathVariable("id") Message messageFromDb, @RequestBody Message message) {
+    @PutMapping(ID_PARAM)
+    public Message update(@PathVariable(ID_PARAM) Message messageFromDb, @RequestBody Message message) {
         return messageService.update(messageFromDb, message);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Message message) {
+    public void delete(@PathVariable(ID_PARAM) Message message) {
         messageService.delete(message);
     }
 
