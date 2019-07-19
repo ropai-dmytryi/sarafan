@@ -1,7 +1,6 @@
 package sarafan.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,63 +11,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sarafan.domain.Message;
 import sarafan.domain.Views;
-import sarafan.dto.EventType;
-import sarafan.dto.ObjectType;
-import sarafan.repo.MessageRepo;
-import sarafan.sender.WsSender;
+import sarafan.service.MessageService;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 @RestController
 @RequestMapping("message")
 public class MessageController {
 
-    private final MessageRepo messageRepo;
-    private final BiConsumer<EventType, Message> wsSender;
+    private MessageService messageService;
 
-    public MessageController(MessageRepo messageRepo, WsSender wsSender) {
-        this.messageRepo = messageRepo;
-        this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.IdName.class);
+    public MessageController(MessageService messageService) {
+        this.messageService = messageService;
     }
 
     @GetMapping
     @JsonView(Views.IdName.class)
     public List<Message> list() {
-        return messageRepo.findAll();
-    }
-
-    @GetMapping("{id}")
-    @JsonView(Views.FullMessage.class)
-    public Message getOne(@PathVariable("id") Message message) {
-        return message;
+        return messageService.getAll();
     }
 
     @PostMapping
     public Message create(@RequestBody Message message) {
-        message.setCreationDate(LocalDateTime.now());
-        Message createdMessage = messageRepo.save(message);
-
-        wsSender.accept(EventType.CREATE, createdMessage);
-
-        return createdMessage;
+        return messageService.create(message);
     }
 
     @PutMapping("{id}")
     public Message update(@PathVariable("id") Message messageFromDb, @RequestBody Message message) {
-        BeanUtils.copyProperties(message, messageFromDb, "id");
-        Message updatedMessage = messageRepo.save(messageFromDb);
-
-        wsSender.accept(EventType.UPDATE, updatedMessage);
-
-        return updatedMessage;
+        return messageService.update(messageFromDb, message);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Message message) {
-        messageRepo.delete(message);
-        wsSender.accept(EventType.REMOVE, message);
+        messageService.delete(message);
     }
 
 }
