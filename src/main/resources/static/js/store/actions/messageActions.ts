@@ -11,7 +11,7 @@ import {
 } from 'store/constants/constants';
 import { Dispatch } from 'redux';
 import { addHandler } from 'util/WebSocket';
-import { IWsRenponse } from './../../model/IWsResponse';
+import { IWsResnponse } from './../../model/IWsResponse';
 
 
 export const getAllMessages = () => (dispatch: Dispatch) => {
@@ -45,8 +45,8 @@ export const addMessage = (message: IMessage) => (dispatch: Dispatch) => {
 };
 
 export const addHeader = () => (dispatch: Dispatch) => {
-    addHandler((data: IWsRenponse) => { dispatch(success(data)); }); // handle websocket response from server
-    const success = (response: IWsRenponse) => ({
+    addHandler((data: IWsResnponse) => { dispatch(success(data)); }); // handle websocket response from server
+    const success = (response: IWsResnponse) => ({
         type: HANDLE_WS_RESPONSE,
         response,
     });

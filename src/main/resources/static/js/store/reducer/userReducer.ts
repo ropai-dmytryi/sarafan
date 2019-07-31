@@ -3,7 +3,7 @@ import {
     GET_ALL_MESSAGES, SET_UPDATE_MESSAGE, SWITCH_TO_ADD_ACTION,
     ADD_MESSAGE, UPDATE_MESSAGE, DELETE_MESSAGE, HANDLE_WS_RESPONSE,
 } from 'store/constants/constants';
-import { IWsRenponse } from 'model/IWsResponse';
+import { IWsResnponse } from 'model/IWsResponse';
 import { ObjectType } from 'model/ObjectTypeEnum';
 import { EventType } from 'model/EventTypeEnum';
 
@@ -63,7 +63,7 @@ const removeMessage = (messageArray: IMessage[], id: number) => {
     return [...messageArray];
 };
 
-const handleWsRenponse = (messageArray: IMessage[], response: IWsRenponse) => {
+const handleWsRenponse = (messageArray: IMessage[], response: IWsResnponse) => {
     if (response.objectType === ObjectType.MESSAGE) {
         const eventType: EventType = response.eventType;
         const message: IMessage = response.body;

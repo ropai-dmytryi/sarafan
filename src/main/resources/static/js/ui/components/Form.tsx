@@ -4,25 +4,27 @@ import { Dispatch } from 'redux';
 import { TextField, Button, Grid } from '@material-ui/core';
 
 const Form = (props: any) => {
-    const { handleSubmit, initialValues } = props;
-    const action = initialValues.text ? 'Update' : 'Add';
-    return (
-        <form onSubmit={ handleSubmit }>
-            <Grid container spacing={ 2 }>
-                <Grid item xs={ 10 }>
-                    <Field
-                        name="text"
-                        component={ renderField }
-                    />
-                </Grid>
-                <Grid item xs={ 2 }>
-                    <Button type="submit" variant="contained">
-                        { action }
-                    </Button>
-                </Grid>
-            </Grid>
-        </form>
-    );
+  const { handleSubmit, initialValues } = props;
+  const action = initialValues.text ? 'Update' : 'Add';
+  return (
+    <form onSubmit={ handleSubmit }>
+      <Grid
+        container
+        direction="row"
+        justify="flex-end"
+        alignItems="flex-start"
+      >
+        <Grid item xs={ 11 }>
+          <Field name="text" component={ renderField } />
+        </Grid>
+        <Grid item xs={ 1 }>
+          <Button type="submit" variant="contained">
+            { action }
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+  );
 };
 
 const renderField = ({
@@ -41,10 +43,11 @@ const renderField = ({
     />
   );
 
-const clearForm = (result: any, dispatch: Dispatch) => dispatch(reset('mainForm'));
+const clearForm = (result: any, dispatch: Dispatch) =>
+  dispatch(reset('mainForm'));
 
 export default reduxForm({
-    form: 'mainForm',
-    onSubmitSuccess: clearForm,
-    enableReinitialize: true, // this is important option for refresh form (for initial values)
+  form: 'mainForm',
+  onSubmitSuccess: clearForm,
+  enableReinitialize: true, // this is important option for refresh form (for initial values)
 })(Form);
