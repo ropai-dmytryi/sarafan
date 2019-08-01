@@ -1,14 +1,14 @@
 import * as React from 'react';
 import Feed from './Feed';
+import { connect } from 'react-redux';
 
-declare var frontendData: any;
-
-class App extends React.Component {
+class App extends React.Component<any> {
 
     public render() {
-        const result = frontendData.profile ? (
+        const { user } = this.props;
+        const result = user ? (
             <div className="App">
-                <Feed user={ frontendData.profile }/>
+                <Feed/>
             </div>
         ) : (
             <div className="App">
@@ -20,4 +20,10 @@ class App extends React.Component {
     }
 }
 
-export default App;
+const mapStateToProps = (state: any) => ({
+    user: state.userReducer.user,
+});
+
+export default connect(
+    mapStateToProps,
+)(App);

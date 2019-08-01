@@ -6,18 +6,21 @@ import {
 import { IWsResnponse } from 'model/IWsResponse';
 import { ObjectType } from 'model/ObjectTypeEnum';
 import { EventType } from 'model/EventTypeEnum';
+import { IUser } from 'model/IUser';
+
+declare var frontendData: any;
 
 const initialState: {
     messages: IMessage[];
     updatedMessage: IMessage;
-    user: any;
+    user: IUser;
 } = {
     messages: [],
     updatedMessage: {
         id: 0,
         text: '',
     },
-    user: {},
+    user: frontendData.profile,
 };
 
 const userReducer = (state = initialState, action: any) => {

@@ -8,8 +8,9 @@ import { connectToWs } from 'util/WebSocket';
 import { AppBar, Toolbar, Typography, IconButton, Container } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Link } from 'react-router-dom';
 
-class Feed extends React.Component<any, any> {
+class Feed extends React.Component<any> {
 
     public componentDidMount() {
         connectToWs();
@@ -43,7 +44,7 @@ const ToolBarComp = (props: any) => {
                     <Typography variant="h6" className={ classes.title }>
                         Sarafan
                     </Typography>
-                    <span>{ user.name }</span>
+                    <Link to={ '/profile' }>{ user.name }</Link>
                     <IconButton href="/logout">
                         <ExitToAppIcon/>
                     </IconButton>
@@ -66,6 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const mapStateToProps = (state: any) => ({
     updatedMessage: state.userReducer.updatedMessage,
+    user: state.userReducer.user,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({

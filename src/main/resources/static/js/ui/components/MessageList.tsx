@@ -6,9 +6,9 @@ import { IMessage } from 'model/Message';
 import * as MessageActions from 'store/actions/messageActions';
 import { Grid } from '@material-ui/core';
 
-class MessageList extends React.Component<any, any> {
+class MessageList extends React.Component<any> {
   public componentDidMount() {
-    this.props.getAllMessages();
+   // this.props.getAllMessages();
   }
 
   public render() {

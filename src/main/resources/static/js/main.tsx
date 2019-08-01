@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from 'ui/components/App';
+import Profile from 'ui/components/Profile';
 import { createBrowserHistory } from 'history';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { Router } from 'react-router';
-import { Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import rootReducer from 'store/reducer/rootReducer';
 import { Provider } from 'react-redux';
@@ -17,7 +17,10 @@ const store = applyMiddleware(thunk, routerMiddleware(history))(createStore)(roo
 ReactDOM.render(
     <Provider store={ store }>
         <Router history={ history }>
-            <Route path="/" component={ App }/>
+            <Switch>
+                <Route exact  path="/" component={ App }/>
+                <Route path="/profile" component={ Profile }/>
+            </Switch>
         </Router>
     </Provider>,
     document.getElementById('root') as HTMLElement);
