@@ -8,7 +8,7 @@ import { Grid } from '@material-ui/core';
 
 class MessageList extends React.Component<any> {
   public componentDidMount() {
-   // this.props.getAllMessages();
+     this.props.getAllMessages();
   }
 
   public render() {
