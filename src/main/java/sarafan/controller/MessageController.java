@@ -13,13 +13,15 @@ import sarafan.domain.Message;
 import sarafan.domain.Views;
 import sarafan.service.MessageService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping(MessageController.MESSAGE_MAPPING)
 public class MessageController {
 
-    private static final String ID_PARAM = "{id}";
+    private static final String ID_PATH_VARIABLE = "id";
+    private static final String ID_PARAM = "{" + ID_PATH_VARIABLE + "}";
     public static final String MESSAGE_MAPPING = "message";
 
     private MessageService messageService;
@@ -29,23 +31,23 @@ public class MessageController {
     }
 
     @GetMapping
-    @JsonView(Views.IdName.class)
+    @JsonView(Views.FullMessage.class)
     public List<Message> list() {
         return messageService.getAll();
     }
 
     @PostMapping
-    public Message create(@RequestBody Message message) {
+    public Message create(@RequestBody Message message) throws IOException {
         return messageService.create(message);
     }
 
     @PutMapping(ID_PARAM)
-    public Message update(@PathVariable(ID_PARAM) Message messageFromDb, @RequestBody Message message) {
+    public Message update(@PathVariable(ID_PATH_VARIABLE) Message messageFromDb, @RequestBody Message message) throws IOException {
         return messageService.update(messageFromDb, message);
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable(ID_PARAM) Message message) {
+    @DeleteMapping(ID_PARAM)
+    public void delete(@PathVariable(ID_PATH_VARIABLE) Message message) {
         messageService.delete(message);
     }
 
