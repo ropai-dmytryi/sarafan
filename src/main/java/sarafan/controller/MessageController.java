@@ -1,6 +1,7 @@
 package sarafan.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sarafan.domain.Message;
+import sarafan.domain.User;
 import sarafan.domain.Views;
 import sarafan.service.MessageService;
 
@@ -37,8 +39,8 @@ public class MessageController {
     }
 
     @PostMapping
-    public Message create(@RequestBody Message message) throws IOException {
-        return messageService.create(message);
+    public Message create(@RequestBody Message message, @AuthenticationPrincipal User user) throws IOException {
+        return messageService.create(message, user);
     }
 
     @PutMapping(ID_PARAM)

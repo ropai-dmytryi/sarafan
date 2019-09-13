@@ -19,10 +19,10 @@ const getMessageType = (message: IMessage) => {
   }
 };
 
-const getHrefComponent = (message: IMessage) => {
-  const classes = useStyles({});
-  const image = message.linkCover ? (
-    <CardMedia component="img" className={ classes.card } src={ message.linkCover } />
+const getHrefComponent = ({ link, linkTitle, linkDescription, linkCover }: IMessage) => {
+  const { card } = useStyles({});
+  const image = linkCover ? (
+    <CardMedia component="img" className={ card } src={ linkCover } />
   ) : null;
   return (
     <Grid
@@ -35,19 +35,19 @@ const getHrefComponent = (message: IMessage) => {
       <CardContent>
         <div>
           <h3>
-            <a href={ message.link }>{ message.linkTitle || message.link }</a>
+            <a href={ link }>{ linkTitle || link }</a>
           </h3>
-          <div>{ message.linkDescription ? message.linkDescription : '' }</div>
+          <div>{ linkDescription ? linkDescription : '' }</div>
         </div>
       </CardContent>
     </Grid>
   );
 };
 
-const getImageComponent = (message: IMessage) => {
-  const classes = useStyles({});
-  const image = message.linkCover ? (
-    <CardMedia component="img" className={ classes.media } src={ message.linkCover } />
+const getImageComponent = ({ link, linkCover }: IMessage) => {
+  const { media } = useStyles({});
+  const image = linkCover ? (
+    <CardMedia component="img" className={ media } src={ linkCover } />
   ) : null;
   return (
     <Grid
@@ -56,7 +56,7 @@ const getImageComponent = (message: IMessage) => {
     justify="center"
     alignItems="center"
   >
-    <a href={ message.link }>
+    <a href={ link }>
       { image }
     </a>
     </Grid>

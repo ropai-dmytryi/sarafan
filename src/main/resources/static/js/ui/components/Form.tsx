@@ -4,8 +4,8 @@ import { Dispatch } from 'redux';
 import { TextField, Button, Grid } from '@material-ui/core';
 
 const Form = (props: any) => {
-  const { handleSubmit, initialValues } = props;
-  const action = initialValues.text ? 'Update' : 'Add';
+  const { handleSubmit, initialValues: { text } } = props;
+  const action = text ? 'Update' : 'Add';
   return (
     <form onSubmit={ handleSubmit }>
       <Grid

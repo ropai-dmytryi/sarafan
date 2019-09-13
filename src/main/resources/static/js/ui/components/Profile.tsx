@@ -7,23 +7,22 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 class Profile extends React.Component<{ user: IUser }> {
 
     public render() {
-        const { user } = this.props;
+        const { user: { userpic, name, locale, email } } = this.props;
         return(
             <div>
-                <UserPicture userpic={ user.userpic }/>
-                <div>{ user.name }</div>
-                <div>{ user.locale }</div>
-                <div>{ user.email }</div>
+                <UserPicture userpic={ userpic }/>
+                <div>{ name }</div>
+                <div>{ locale }</div>
+                <div>{ email }</div>
             </div>
         );
     }
 }
 
-const UserPicture = (props: any) => {
-    const { userpic } = props;
-    const classes = useStyles({});
+const UserPicture = ({ userpic }: any) => {
+    const { igm } = useStyles({});
     return (
-        <CardMedia className={ classes.igm } component="img" src={ userpic } />
+        <CardMedia className={ igm } component="img" src={ userpic } />
     );
 };
 

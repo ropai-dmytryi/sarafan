@@ -14,73 +14,47 @@ import { addHandler } from 'util/WebSocket';
 import { IWsResnponse } from './../../model/IWsResponse';
 
 
-export const getAllMessages = () => (dispatch: Dispatch) => {
-    fetch(GET_ALL_MESSAGES_URL)
-        .then((response) => response.json())
-        .then((data) => dispatch(success(data)))
-        .catch((error) => console.log(error));
-
-    const success = (messages: IMessage[]) => ({
-        type: GET_ALL_MESSAGES,
-        messages,
-    });
+export const getAllMessages = () => async (dispatch: Dispatch) => {
+    const response: Response = await fetch(GET_ALL_MESSAGES_URL);
+    const messages = await response.json();
+    dispatch({ type: GET_ALL_MESSAGES, messages });
 };
 
-export const addMessage = (message: IMessage) => (dispatch: Dispatch) => {
-    const text = message.text;
-    fetch(GET_ALL_MESSAGES_URL, {
+export const addMessage = ({ text }: IMessage) => async (dispatch: Dispatch) => {
+    const response: Response = await fetch(GET_ALL_MESSAGES_URL, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({text}),
-    }).then((response) => response.json())
-        .then((data) => dispatch(success(data)))
-        .catch((errorMessage) => console.log(errorMessage));
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+    });
+    const message = await response.json();
 
-    const success = (message: any) => ({
-            type: ADD_MESSAGE,
-            message,
-        });
+    dispatch({ type: ADD_MESSAGE, message });
 };
 
 export const addHeader = () => (dispatch: Dispatch) => {
-    addHandler((data: IWsResnponse) => { dispatch(success(data)); }); // handle websocket response from server
-    const success = (response: IWsResnponse) => ({
-        type: HANDLE_WS_RESPONSE,
-        response,
-    });
+    addHandler((response: IWsResnponse) => { dispatch({ type: HANDLE_WS_RESPONSE, response }); }); // handle websocket response from server
 };
 
-export const updateMessage = (message: IMessage) => (dispatch: Dispatch) => {
-    const {id, text} = message;
-    fetch(GET_ALL_MESSAGES_URL + '/' + id, {
+export const updateMessage = ({ id, text }: IMessage) => async (dispatch: Dispatch) => {
+    const response: Response = await fetch(GET_ALL_MESSAGES_URL + '/' + id, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({text}),
-    }).then((response) => response.json())
-        .then((data) => dispatch(success(data)))
-        .catch((errorMessage) => console.log(errorMessage));
-
-    const success = (message: any) => ({
-        type: UPDATE_MESSAGE,
-        message,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
     });
+    const message = await response.json();
+
+    dispatch({ type: UPDATE_MESSAGE, message });
 };
 
-export const deleteMessage = (id: number) => (dispatch: Dispatch) => {
-    fetch(GET_ALL_MESSAGES_URL + '/' + id, {
-        method: 'DELETE',
-    }).then(() => dispatch({type: DELETE_MESSAGE, id}))
-        .catch((errorMessage: string) => console.log(errorMessage));
+export const deleteMessage = (id: number) => async (dispatch: Dispatch) => {
+    await fetch(GET_ALL_MESSAGES_URL + '/' + id, { method: 'DELETE' });
+    dispatch({type: DELETE_MESSAGE, id});
 };
 
 export const setUpdateMessage = (message: IMessage) => (dispatch: Dispatch) => {
-    dispatch({type: SET_UPDATE_MESSAGE, message});
+    dispatch({ type: SET_UPDATE_MESSAGE, message });
 };
 
 export const switchToAddAction = () => (dispatch: Dispatch) => {
-    dispatch({type: SWITCH_TO_ADD_ACTION});
+    dispatch({ type: SWITCH_TO_ADD_ACTION });
 };

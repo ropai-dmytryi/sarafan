@@ -7,6 +7,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import sarafan.domain.Message;
+import sarafan.domain.User;
 import sarafan.domain.Views;
 import sarafan.dto.EventType;
 import sarafan.dto.MetaDto;
@@ -47,9 +48,10 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message create(Message message) throws IOException {
+    public Message create(Message message, User user) throws IOException {
         message.setCreationDate(LocalDateTime.now());
         fillMeta(message);
+        message.setAuthor(user);
         Message createdMessage = messageRepo.save(message);
 
         wsSender.accept(EventType.CREATE, createdMessage);

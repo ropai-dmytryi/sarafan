@@ -11,12 +11,11 @@ import * as React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Media from './Media';
 
-const Message = (props: any) => {
-  const classes = useStyles({});
-  const { message, deleteMessage, setUpdatedMessage } = props;
+const Message = ({ message, deleteMessage, setUpdatedMessage }: any) => {
+  const { card } = useStyles({});
   const link = message.link ? (<Media message={ message }/>) : null;
   return (
-    <Card className={ classes.card } raised={ false }>
+    <Card className={ card } raised={ false }>
       <CardContent>
         <Typography variant="h5" component="h2">
           { message.text }

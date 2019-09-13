@@ -34,17 +34,16 @@ class Feed extends React.Component<any> {
     }
 }
 
-const ToolBarComp = (props: any) => {
-    const classes = useStyles({});
-    const { user } = props;
+const ToolBarComp = ({ user: { name } }: any) => {
+    const { root, title } = useStyles({});
     return(
-        <div className={ classes.root }>
+        <div className={ root }>
             <AppBar position="static" color="default">
                 <Toolbar>
-                    <Typography variant="h6" className={ classes.title }>
+                    <Typography variant="h6" className={ title }>
                         Sarafan
                     </Typography>
-                    <Link to={ '/profile' }>{ user.name }</Link>
+                    <Link to={ '/profile' }>{ name }</Link>
                     <IconButton href="/logout">
                         <ExitToAppIcon/>
                     </IconButton>

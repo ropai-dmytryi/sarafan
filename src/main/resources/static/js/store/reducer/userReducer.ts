@@ -45,8 +45,6 @@ const userReducer = (state = initialState, action: any) => {
 };
 
 const addToMessages = (messageArray: IMessage[], newMessage: IMessage) => {
-    console.log('aadd');
-    console.log(newMessage);
     const index = messageArray.findIndex((message: IMessage) => message.id === newMessage.id);
     if (index === -1) {
         messageArray.push(newMessage);
