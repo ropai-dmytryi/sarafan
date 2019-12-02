@@ -2,15 +2,25 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as MessageActions from 'store/actions/messageActions';
-import Form from './Form';
-import MessageList from './MessageList';
+import Form from './messages/Form';
+import MessageList from './messages/MessageList';
 import { connectToWs } from 'util/WebSocket';
 import { AppBar, Toolbar, Typography, IconButton, Container } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom';
+import { IMessage } from 'model/IMessage';
+import { IUser } from 'model/IUser';
 
-class Feed extends React.Component<any> {
+interface IFeedProps {
+    user: IUser;
+    updatedMessage: IMessage;
+    addMessage: (message: IMessage) => void;
+    updateMessage: (message: IMessage) => void;
+    addHeader: () => void;
+}
+
+class Feed extends React.Component<IFeedProps> {
 
     public componentDidMount() {
         connectToWs();

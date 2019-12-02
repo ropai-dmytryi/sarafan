@@ -2,17 +2,26 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import Message from './Message';
-import { IMessage } from 'model/Message';
+import { IMessage } from 'model/IMessage';
 import * as MessageActions from 'store/actions/messageActions';
 import { Grid } from '@material-ui/core';
+import * as CommentsActions from 'store/actions/commentsActions';
 
-class MessageList extends React.Component<any> {
+interface IMessageProps {
+  messages: IMessage[];
+  deleteMessage: (id: number) => void;
+  setUpdatedMessage: (message: IMessage) => void;
+  getAllMessages: () => void;
+  createComment: (commentText: string, messageId: number, formNameForReset: string) => void;
+}
+
+class MessageList extends React.Component<IMessageProps> {
   public componentDidMount() {
      this.props.getAllMessages();
   }
 
   public render() {
-    const { messages, deleteMessage, setUpdatedMessage } = this.props;
+    const { messages, deleteMessage, setUpdatedMessage, createComment } = this.props;
     return (
       <Grid
         container
@@ -27,6 +36,7 @@ class MessageList extends React.Component<any> {
                 message={ message }
                 deleteMessage={ deleteMessage }
                 setUpdatedMessage={ setUpdatedMessage }
+                createComment={ createComment }
             />
             )) }
         </Grid>
@@ -45,6 +55,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
       getAllMessages: MessageActions.getAllMessages,
       deleteMessage: MessageActions.deleteMessage,
       setUpdatedMessage: MessageActions.setUpdateMessage,
+      createComment: CommentsActions.createComment,
     },
     dispatch,
   );

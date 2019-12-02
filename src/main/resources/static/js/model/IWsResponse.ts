@@ -1,6 +1,6 @@
 import { ObjectType } from './ObjectTypeEnum';
 import { EventType } from './EventTypeEnum';
-import { IMessage } from './Message';
+import { IMessage } from './IMessage';
 
 export interface IWsResnponse {
     objectType: ObjectType;

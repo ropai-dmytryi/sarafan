@@ -1,12 +1,13 @@
-import { IMessage } from 'model/Message';
+import { IMessage } from 'model/IMessage';
 import {
     GET_ALL_MESSAGES, SET_UPDATE_MESSAGE, SWITCH_TO_ADD_ACTION,
-    ADD_MESSAGE, UPDATE_MESSAGE, DELETE_MESSAGE, HANDLE_WS_RESPONSE,
+    ADD_MESSAGE, UPDATE_MESSAGE, DELETE_MESSAGE, HANDLE_WS_RESPONSE, ADD_COMMENT,
 } from 'store/constants/constants';
 import { IWsResnponse } from 'model/IWsResponse';
 import { ObjectType } from 'model/ObjectTypeEnum';
 import { EventType } from 'model/EventTypeEnum';
 import { IUser } from 'model/IUser';
+import { IComment } from 'model/IComment';
 
 declare var frontendData: any;
 
@@ -19,6 +20,8 @@ const initialState: {
     updatedMessage: {
         id: 0,
         text: '',
+        user: undefined,
+        comments: [],
     },
     user: frontendData.profile,
 };
@@ -39,6 +42,8 @@ const userReducer = (state = initialState, action: any) => {
             return {...state, updatedMessage: action.message};
         case SWITCH_TO_ADD_ACTION:
             return {...state, updatedMessage: {id: 0, text: ''}};
+        case ADD_COMMENT:
+            return {...state, messages: addComment(state.messages, action.comment)};
         default:
             return state;
     }
@@ -53,8 +58,8 @@ const addToMessages = (messageArray: IMessage[], newMessage: IMessage) => {
 };
 
 const updateMessage = (messageArray: IMessage[], updatedMessage: IMessage) => {
-    const removeIndex = messageArray.findIndex((message: IMessage) => message.id === updatedMessage.id);
-    messageArray[removeIndex] = updatedMessage;
+    const index = messageArray.findIndex((message: IMessage) => message.id === updatedMessage.id);
+    messageArray[index] = updatedMessage;
     return [...messageArray];
 };
 
@@ -62,6 +67,18 @@ const removeMessage = (messageArray: IMessage[], id: number) => {
     const removeIndex = messageArray.findIndex((message: IMessage) => message.id === id);
     if (removeIndex !== -1) {
         messageArray.splice(removeIndex, 1);
+    }
+    return [...messageArray];
+};
+
+const addComment = (messageArray: IMessage[], comment: IComment) => {
+    const index = messageArray.findIndex((message: IMessage) => message.id === comment.message.id);
+    if (index !== -1) {
+        if (messageArray[index].comments) {
+            messageArray[index].comments.push(comment);
+        } else {
+            messageArray[index].comments = [comment];
+        }
     }
     return [...messageArray];
 };

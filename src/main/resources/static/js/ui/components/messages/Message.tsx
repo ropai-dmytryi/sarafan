@@ -9,9 +9,18 @@ import {
 import Delete from '@material-ui/icons/Delete';
 import * as React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Media from './Media';
+import Media from './media/Media';
+import { IMessage } from 'model/IMessage';
+import CommentList from 'ui/components/comments/CommentList';
 
-const Message = ({ message, deleteMessage, setUpdatedMessage }: any) => {
+interface IMessageProps {
+  message: IMessage;
+  deleteMessage: (id: number) => void;
+  setUpdatedMessage: (message: IMessage) => void;
+  createComment: (commentText: string, messageId: number, formNameForReset: string) => void;
+}
+
+const Message = ({ message, deleteMessage, setUpdatedMessage, createComment }: IMessageProps) => {
   const { card } = useStyles({});
   const link = message.link ? (<Media message={ message }/>) : null;
   return (
@@ -28,6 +37,7 @@ const Message = ({ message, deleteMessage, setUpdatedMessage }: any) => {
           <Delete />
         </IconButton>
       </CardActions>
+      <CommentList message={ message } createComment={ createComment }/>
     </Card>
   );
 };

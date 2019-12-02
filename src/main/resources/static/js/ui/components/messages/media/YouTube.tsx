@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { Grid } from '@material-ui/core';
 
-const YouTube = ({ link }: any) => {
+interface IYouTubeProps {
+  link: string;
+}
+
+const YouTube = ({ link }: IYouTubeProps) => {
   const targetSrc: string = getTargetSrc(link);
   return (
     <Grid

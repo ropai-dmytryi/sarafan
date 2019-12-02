@@ -1,8 +1,13 @@
 import * as React from 'react';
 import Feed from './Feed';
 import { connect } from 'react-redux';
+import { IUser } from 'model/IUser';
 
-class App extends React.Component<any> {
+interface IAppProps {
+    user: IUser;
+}
+
+class App extends React.Component<IAppProps> {
 
     public render() {
         const { user } = this.props;

@@ -1,6 +1,5 @@
 package sarafan.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sarafan.domain.Comment;
 import sarafan.domain.User;
@@ -18,8 +17,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment create(Comment comment, User user) {
         comment.setAuthor(user);
-        commentRepo.save(comment);
 
-        return comment;
+        return commentRepo.save(comment);
     }
 }

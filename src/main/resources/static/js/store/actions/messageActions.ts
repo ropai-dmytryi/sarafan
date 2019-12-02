@@ -1,5 +1,6 @@
 import { GET_ALL_MESSAGES_URL } from 'store/constants/urlConstant';
-import { IMessage } from 'model/Message';
+import { IMessage } from 'model/IMessage';
+import { IWsResnponse } from 'model/IWsResponse';
 import {
     GET_ALL_MESSAGES,
     ADD_MESSAGE,
@@ -11,7 +12,6 @@ import {
 } from 'store/constants/constants';
 import { Dispatch } from 'redux';
 import { addHandler } from 'util/WebSocket';
-import { IWsResnponse } from './../../model/IWsResponse';
 
 
 export const getAllMessages = () => async (dispatch: Dispatch) => {

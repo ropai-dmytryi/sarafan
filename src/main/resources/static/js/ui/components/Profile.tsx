@@ -4,7 +4,11 @@ import { IUser } from 'model/IUser';
 import { CardMedia } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-class Profile extends React.Component<{ user: IUser }> {
+interface IProfileProps {
+    user: IUser;
+}
+
+class Profile extends React.Component<IProfileProps> {
 
     public render() {
         const { user: { userpic, name, locale, email } } = this.props;

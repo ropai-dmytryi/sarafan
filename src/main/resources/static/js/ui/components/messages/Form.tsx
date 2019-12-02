@@ -3,8 +3,7 @@ import { Field, reduxForm, reset } from 'redux-form';
 import { Dispatch } from 'redux';
 import { TextField, Button, Grid } from '@material-ui/core';
 
-const Form = (props: any) => {
-  const { handleSubmit, initialValues: { text } } = props;
+const Form = ({ handleSubmit, initialValues: { text } }: any) => {
   const action = text ? 'Update' : 'Add';
   return (
     <form onSubmit={ handleSubmit }>

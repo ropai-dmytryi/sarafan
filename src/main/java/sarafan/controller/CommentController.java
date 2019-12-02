@@ -12,8 +12,11 @@ import sarafan.domain.Views;
 import sarafan.service.CommentService;
 
 @RestController
-@RequestMapping("comment")
+@RequestMapping(CommentController.COMMENT_MAPPING)
 public class CommentController {
+
+    public static final String COMMENT_MAPPING = "comment";
+
     private final CommentService commentService;
 
     public CommentController(CommentService commentService) {
@@ -21,7 +24,7 @@ public class CommentController {
     }
 
     @PostMapping
-    @JsonView(Views.FullMessage.class)
+    @JsonView(Views.FullComment.class)
     public Comment create(@RequestBody Comment comment, @AuthenticationPrincipal User user) {
         return commentService.create(comment, user);
     }

@@ -1,10 +1,14 @@
 import * as React from 'react';
-import { IMessage } from 'model/Message';
+import { IMessage } from 'model/IMessage';
 import { Card, CardMedia, CardContent, Grid } from '@material-ui/core';
 import YouTube from './YouTube';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-const Media = ({ message }: any) => {
+interface IMediaProps {
+  message: IMessage;
+}
+
+const Media = ({ message }: IMediaProps) => {
   const result = getMessageType(message);
   return <Card>{ result }</Card>;
 };
