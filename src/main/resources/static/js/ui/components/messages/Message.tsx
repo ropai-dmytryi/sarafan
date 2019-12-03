@@ -5,6 +5,8 @@ import {
   Typography,
   Card,
   Button,
+  Avatar,
+  Grid,
 } from '@material-ui/core';
 import Delete from '@material-ui/icons/Delete';
 import * as React from 'react';
@@ -22,13 +24,27 @@ interface IMessageProps {
 
 const Message = ({ message, deleteMessage, setUpdatedMessage, createComment }: IMessageProps) => {
   const { card } = useStyles({});
-  const link = message.link ? (<Media message={ message }/>) : null;
+  const link = message.link ? (<Media message={ message } />) : null;
+  console.log(message);
   return (
     <Card className={ card } raised={ false }>
       <CardContent>
-        <Typography variant="h5" component="h2">
-          { message.text }
-        </Typography>
+        <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
+          spacing={ 2 }
+        >
+          <Grid item>
+            <Avatar alt="Remy Sharp" src={ message.author.userpic } />
+          </Grid>
+          <Grid item>
+            <Typography variant="h5" component="h2">
+              { message.text }
+            </Typography>
+          </Grid>
+        </Grid>
       </CardContent>
       { link }
       <CardActions>
@@ -37,7 +53,7 @@ const Message = ({ message, deleteMessage, setUpdatedMessage, createComment }: I
           <Delete />
         </IconButton>
       </CardActions>
-      <CommentList message={ message } createComment={ createComment }/>
+      <CommentList message={ message } createComment={ createComment } />
     </Card>
   );
 };

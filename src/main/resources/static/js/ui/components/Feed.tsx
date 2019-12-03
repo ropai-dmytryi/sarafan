@@ -33,10 +33,10 @@ class Feed extends React.Component<IFeedProps> {
             <div>
                 <ToolBarComp user={ user }/>
                 <Container style={ { marginTop: 40} }>
-                <Form
-                    onSubmit={ updatedMessage.text ? updateMessage : addMessage }
-                    initialValues={ updatedMessage }
-                />
+                    <Form
+                        onSubmit={ updatedMessage.text ? updateMessage : addMessage }
+                        initialValues={ updatedMessage }
+                    />
                 </Container>
                 <MessageList/>
             </div>

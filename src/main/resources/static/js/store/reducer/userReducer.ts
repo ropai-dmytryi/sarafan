@@ -20,7 +20,7 @@ const initialState: {
     updatedMessage: {
         id: 0,
         text: '',
-        user: undefined,
+        author: undefined,
         comments: [],
     },
     user: frontendData.profile,

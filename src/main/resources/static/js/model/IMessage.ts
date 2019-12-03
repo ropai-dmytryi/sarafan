@@ -6,7 +6,7 @@ export interface IMessage {
     text: string;
     creationDate?: Date;
 
-    user: IUser;
+    author: IUser;
     comments: IComment[];
 
     link?: string;
