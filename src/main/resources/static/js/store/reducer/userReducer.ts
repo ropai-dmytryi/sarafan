@@ -71,13 +71,17 @@ const removeMessage = (messageArray: IMessage[], id: number) => {
     return [...messageArray];
 };
 
-const addComment = (messageArray: IMessage[], comment: IComment) => {
-    const index = messageArray.findIndex((message: IMessage) => message.id === comment.message.id);
+const addComment = (messageArray: IMessage[], newComment: IComment) => {
+    const index = messageArray.findIndex((message: IMessage) => message.id === newComment.message.id);
     if (index !== -1) {
-        if (messageArray[index].comments) {
-            messageArray[index].comments.push(comment);
+        const comments: IComment[] = messageArray[index].comments;
+        if (comments) {
+            const commentIndex = comments.findIndex((comment: IComment) => comment.id === newComment.id);
+            if (commentIndex === -1) {
+                messageArray[index].comments.push(newComment);
+            }
         } else {
-            messageArray[index].comments = [comment];
+            messageArray[index].comments = [newComment];
         }
     }
     return [...messageArray];
@@ -86,7 +90,7 @@ const addComment = (messageArray: IMessage[], comment: IComment) => {
 const handleWsRenponse = (messageArray: IMessage[], response: IWsResnponse) => {
     if (response.objectType === ObjectType.MESSAGE) {
         const eventType: EventType = response.eventType;
-        const message: IMessage = response.body;
+        const message: IMessage = response.body as IMessage;
         switch (eventType) {
             case EventType.CREATE:
                 return addToMessages(messageArray, message);
@@ -95,11 +99,16 @@ const handleWsRenponse = (messageArray: IMessage[], response: IWsResnponse) => {
             case EventType.REMOVE:
                 return removeMessage(messageArray, message.id);
             default:
-                console.error('Event not found');
+                throw new Error('Unknow event');
+        }
+    } else if (response.objectType === ObjectType.COMMENT) {
+        const eventType: EventType = response.eventType;
+        const comment: IComment = response.body as IComment;
+        if (eventType === EventType.CREATE) {
+            return addComment(messageArray, comment);
         }
     } else {
-        console.error('Unexpected object type');
-        return messageArray;
+        throw new Error('Unknow object type');
     }
 };
 

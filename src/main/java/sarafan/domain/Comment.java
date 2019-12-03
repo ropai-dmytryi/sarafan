@@ -19,10 +19,10 @@ public class Comment {
 
     @Id
     @GeneratedValue
-    @JsonView(Views.Id.class)
+    @JsonView(Views.IdName.class)
     private Long id;
 
-    @JsonView(Views.Id.class)
+    @JsonView(Views.IdName.class)
     private String text;
 
     @ManyToOne
@@ -32,6 +32,6 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    @JsonView(Views.FullMessage.class)
+    @JsonView(Views.IdName.class)
     private User author;
 }
