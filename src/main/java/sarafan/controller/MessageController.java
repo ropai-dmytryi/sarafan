@@ -50,7 +50,7 @@ public class MessageController {
     public Message update(@PathVariable(ID_PATH_VARIABLE) Message messageFromDb,
                           @RequestBody Message message,
                           @AuthenticationPrincipal User user) throws IOException {
-        if (!user.getId().equals(message.getAuthor().getId())) {
+        if (!user.getId().equals(messageFromDb.getAuthor().getId())) {
             throw new AccessDeniedException();
         }
         return messageService.update(messageFromDb, message);
