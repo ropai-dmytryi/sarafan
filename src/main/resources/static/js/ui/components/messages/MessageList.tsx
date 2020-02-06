@@ -6,9 +6,11 @@ import { IMessage } from 'model/IMessage';
 import * as MessageActions from 'store/actions/messageActions';
 import { Grid } from '@material-ui/core';
 import * as CommentsActions from 'store/actions/commentsActions';
+import { IUser } from 'model/IUser';
 
 interface IMessageProps {
   messages: IMessage[];
+  user: IUser;
   deleteMessage: (id: number) => void;
   changeUpdatedMessage: (message: IMessage) => void;
   getAllMessages: () => void;
@@ -21,7 +23,7 @@ class MessageList extends React.Component<IMessageProps> {
   }
 
   public render() {
-    const { messages, deleteMessage, changeUpdatedMessage, createComment } = this.props;
+    const { messages, deleteMessage, changeUpdatedMessage, createComment, user } = this.props;
     return (
       <Grid
         container
@@ -30,15 +32,17 @@ class MessageList extends React.Component<IMessageProps> {
         alignItems="flex-start"
       >
         <Grid item>
-            { messages.map((message: IMessage, index: number) => (
-            <Message
+            { messages.map((message: IMessage, index: number) => {
+              const isAuthor: boolean = user.id === message.author.id;
+              return (<Message
                 key={ index }
                 message={ message }
                 deleteMessage={ deleteMessage }
                 changeUpdatedMessage={ changeUpdatedMessage }
                 createComment={ createComment }
+                isAuthor={ isAuthor }
             />
-            )) }
+            ); }) }
         </Grid>
       </Grid>
     );
@@ -47,6 +51,7 @@ class MessageList extends React.Component<IMessageProps> {
 
 const mapStateToProps = (state: any) => ({
   messages: state.userReducer.messages,
+  user: state.userReducer.user,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

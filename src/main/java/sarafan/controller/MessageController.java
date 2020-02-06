@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sarafan.domain.Message;
 import sarafan.domain.User;
 import sarafan.domain.Views;
+import sarafan.exception.AccessDeniedException;
 import sarafan.service.MessageService;
 
 import java.io.IOException;
@@ -46,12 +47,21 @@ public class MessageController {
 
     @PutMapping(ID_PARAM)
     @JsonView(Views.FullMessage.class)
-    public Message update(@PathVariable(ID_PATH_VARIABLE) Message messageFromDb, @RequestBody Message message) throws IOException {
+    public Message update(@PathVariable(ID_PATH_VARIABLE) Message messageFromDb,
+                          @RequestBody Message message,
+                          @AuthenticationPrincipal User user) throws IOException {
+        if (!user.getId().equals(message.getAuthor().getId())) {
+            throw new AccessDeniedException();
+        }
         return messageService.update(messageFromDb, message);
     }
 
     @DeleteMapping(ID_PARAM)
-    public void delete(@PathVariable(ID_PATH_VARIABLE) Message message) {
+    public void delete(@PathVariable(ID_PATH_VARIABLE) Message message,
+                       @AuthenticationPrincipal User user) {
+        if (!user.getId().equals(message.getAuthor().getId())) {
+            throw new AccessDeniedException();
+        }
         messageService.delete(message);
     }
 
