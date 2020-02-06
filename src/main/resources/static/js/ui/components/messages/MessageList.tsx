@@ -10,7 +10,7 @@ import * as CommentsActions from 'store/actions/commentsActions';
 interface IMessageProps {
   messages: IMessage[];
   deleteMessage: (id: number) => void;
-  setUpdatedMessage: (message: IMessage) => void;
+  changeUpdatedMessage: (message: IMessage) => void;
   getAllMessages: () => void;
   createComment: (commentText: string, messageId: number, formNameForReset: string) => void;
 }
@@ -21,7 +21,7 @@ class MessageList extends React.Component<IMessageProps> {
   }
 
   public render() {
-    const { messages, deleteMessage, setUpdatedMessage, createComment } = this.props;
+    const { messages, deleteMessage, changeUpdatedMessage, createComment } = this.props;
     return (
       <Grid
         container
@@ -35,7 +35,7 @@ class MessageList extends React.Component<IMessageProps> {
                 key={ index }
                 message={ message }
                 deleteMessage={ deleteMessage }
-                setUpdatedMessage={ setUpdatedMessage }
+                changeUpdatedMessage={ changeUpdatedMessage }
                 createComment={ createComment }
             />
             )) }
@@ -54,7 +54,6 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     {
       getAllMessages: MessageActions.getAllMessages,
       deleteMessage: MessageActions.deleteMessage,
-      setUpdatedMessage: MessageActions.setUpdateMessage,
       createComment: CommentsActions.createComment,
     },
     dispatch,

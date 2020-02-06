@@ -18,14 +18,13 @@ import CommentList from 'ui/components/comments/CommentList';
 interface IMessageProps {
   message: IMessage;
   deleteMessage: (id: number) => void;
-  setUpdatedMessage: (message: IMessage) => void;
+  changeUpdatedMessage: (message: IMessage) => void;
   createComment: (commentText: string, messageId: number, formNameForReset: string) => void;
 }
 
-const Message = ({ message, deleteMessage, setUpdatedMessage, createComment }: IMessageProps) => {
+const Message = ({ message, deleteMessage, changeUpdatedMessage, createComment }: IMessageProps) => {
   const { card } = useStyles({});
   const link = message.link ? (<Media message={ message } />) : null;
-  console.log(message);
   return (
     <Card className={ card } raised={ false }>
       <CardContent>
@@ -48,7 +47,7 @@ const Message = ({ message, deleteMessage, setUpdatedMessage, createComment }: I
       </CardContent>
       { link }
       <CardActions>
-        <Button onClick={ () => setUpdatedMessage(message) }>Update</Button>
+        <Button onClick={ () => changeUpdatedMessage(message) }>Update</Button>
         <IconButton onClick={ () => deleteMessage(message.id) }>
           <Delete />
         </IconButton>

@@ -14,31 +14,53 @@ import { IUser } from 'model/IUser';
 
 interface IFeedProps {
     user: IUser;
-    updatedMessage: IMessage;
     addMessage: (message: IMessage) => void;
     updateMessage: (message: IMessage) => void;
     addHeader: () => void;
 }
 
-class Feed extends React.Component<IFeedProps> {
+interface IFeedState {
+    updatedMessage?: IMessage;
+}
+
+class Feed extends React.Component<IFeedProps, IFeedState> {
+
+    public state: IFeedState = {
+        updatedMessage: null,
+    };
 
     public componentDidMount() {
         connectToWs();
         this.props.addHeader();
     }
 
+    public updateMessageAndCleanUpdatedMessage = (message: IMessage) => {
+        const { updateMessage } = this.props;
+        updateMessage(message);
+        this.setState({ updatedMessage: null });
+    }
+
+    public setUpdatedMessage = (message: IMessage) => {
+        this.setState({ updatedMessage: message });
+    }
+
     public render() {
-        const { addMessage, updateMessage, updatedMessage, user } = this.props;
+        const { addMessage, user } = this.props;
+        const { updatedMessage } = this.state;
+        const updateMessage = (updatedMessage: IMessage) => this.updateMessageAndCleanUpdatedMessage(updatedMessage);
+        const changeUpdatedMessage = (updatedMessage: IMessage) => this.setUpdatedMessage(updatedMessage);
+
+        const form = updatedMessage ?
+            (<Form onSubmit={ updateMessage } initialValues={ updatedMessage }/>) :
+            (<Form onSubmit={ addMessage }/>);
+
         return (
             <div>
                 <ToolBarComp user={ user }/>
-                <Container style={ { marginTop: 40} }>
-                    <Form
-                        onSubmit={ updatedMessage.text ? updateMessage : addMessage }
-                        initialValues={ updatedMessage }
-                    />
+                <Container style={ { marginTop: 40 } }>
+                    { form }
                 </Container>
-                <MessageList/>
+                <MessageList changeUpdatedMessage={ changeUpdatedMessage }/>
             </div>
         );
     }
@@ -75,14 +97,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const mapStateToProps = (state: any) => ({
-    updatedMessage: state.userReducer.updatedMessage,
     user: state.userReducer.user,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     addMessage: MessageActions.addMessage,
     updateMessage: MessageActions.updateMessage,
-    switchToAddAction: MessageActions.switchToAddAction,
     addHeader: MessageActions.addHeader,
 }, dispatch);
 
