@@ -9,4 +9,4 @@ sarafan.mv.db
 sarafan.trace.db
 package-lock.json
 dist
-/sarafanDB.trace.db
+/database/sarafanDB.trace.db
