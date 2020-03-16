@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Feed from './Feed';
+import LoginPage from './LoginPage';
 import { connect } from 'react-redux';
 import { IUser } from 'model/IUser';
 
@@ -17,7 +18,7 @@ class App extends React.Component<IAppProps> {
             </div>
         ) : (
             <div className="App">
-                <a href="/login">Login</a>
+                <LoginPage />
             </div>
         );
 
