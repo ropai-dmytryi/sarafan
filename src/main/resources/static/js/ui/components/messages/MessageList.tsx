@@ -15,11 +15,22 @@ interface IMessageProps {
   changeUpdatedMessage: (message: IMessage) => void;
   getAllMessages: () => void;
   createComment: (commentText: string, messageId: number, formNameForReset: string) => void;
+  getMessagePerPage: (currentPage: number) => void;
+  currentPage: number;
+  totalPages: number;
 }
 
 class MessageList extends React.Component<IMessageProps> {
   public componentDidMount() {
-     this.props.getAllMessages();
+    const { getAllMessages, getMessagePerPage } = this.props;
+    getAllMessages();
+    window.onscroll = () => {
+      const el = document.documentElement;
+      const isBottomOfStreen = el.scrollTop + window.innerHeight === el.offsetHeight;
+      if (isBottomOfStreen && this.props.currentPage < this.props.totalPages) {
+        getMessagePerPage(this.props.currentPage + 1);
+      }
+    };
   }
 
   public render() {
@@ -52,6 +63,8 @@ class MessageList extends React.Component<IMessageProps> {
 const mapStateToProps = (state: any) => ({
   messages: state.userReducer.messages,
   user: state.userReducer.user,
+  currentPage: state.userReducer.currentPage,
+  totalPages: state.userReducer.totalPages,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -59,6 +72,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     {
       getAllMessages: MessageActions.getAllMessages,
       deleteMessage: MessageActions.deleteMessage,
+      getMessagePerPage: MessageActions.getMessagePerPage,
       createComment: CommentsActions.createComment,
     },
     dispatch,

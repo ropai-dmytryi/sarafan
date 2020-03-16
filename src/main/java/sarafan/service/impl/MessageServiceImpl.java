@@ -4,12 +4,15 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sarafan.domain.Message;
 import sarafan.domain.User;
 import sarafan.domain.Views;
 import sarafan.dto.EventType;
+import sarafan.dto.MessagePageDto;
 import sarafan.dto.MetaDto;
 import sarafan.dto.ObjectType;
 import sarafan.repo.MessageRepo;
@@ -18,7 +21,6 @@ import sarafan.service.MessageService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,14 +39,20 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepo messageRepo;
     private final BiConsumer<EventType, Message> wsSender;
 
+    @Autowired
     public MessageServiceImpl(MessageRepo messageRepo, WsSender wsSender) {
         this.messageRepo = messageRepo;
         this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.FullMessage.class);
     }
 
     @Override
-    public List<Message> getAll() {
-        return messageRepo.findAll();
+    public MessagePageDto getAll(Pageable pageable) {
+        Page<Message> page = messageRepo.findAll(pageable);
+        return new MessagePageDto(
+                page.getContent(),
+                pageable.getPageNumber(),
+                page.getTotalPages()
+        );
     }
 
     @Override

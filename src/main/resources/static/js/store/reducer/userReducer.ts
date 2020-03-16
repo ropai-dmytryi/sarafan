@@ -6,6 +6,7 @@ import {
     DELETE_MESSAGE,
     HANDLE_WS_RESPONSE,
     ADD_COMMENT,
+    UPDATE_MESSAGES,
 } from 'store/constants/constants';
 import { IWsResnponse } from 'model/IWsResponse';
 import { ObjectType } from 'model/ObjectTypeEnum';
@@ -18,15 +19,22 @@ declare var frontendData: any;
 const initialState: {
     messages: IMessage[];
     user: IUser;
+    currentPage: number;
+    totalPages: number;
 } = {
     messages: [],
     user: frontendData.profile,
+    currentPage: 0,
+    totalPages: 0,
 };
 
 const userReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case GET_ALL_MESSAGES:
-            return {...state, messages: action.messages};
+            return {...state, ...action.messagePage};
+        case UPDATE_MESSAGES:
+            const { messages, currentPage, totalPages } = action.messagePage;
+            return {...state, messages: [...state.messages, ...messages], currentPage, totalPages};
         case ADD_MESSAGE:
             return {...state, messages: addToMessages(state.messages, action.message)};
         case UPDATE_MESSAGE:
@@ -45,7 +53,7 @@ const userReducer = (state = initialState, action: any) => {
 const addToMessages = (messageArray: IMessage[], newMessage: IMessage) => {
     const index = messageArray.findIndex((message: IMessage) => message.id === newMessage.id);
     if (index === -1) {
-        messageArray.push(newMessage);
+        messageArray.unshift(newMessage);
     }
     return [...messageArray];
 };
@@ -92,7 +100,7 @@ const handleWsRenponse = (messageArray: IMessage[], response: IWsResnponse) => {
             case EventType.REMOVE:
                 return removeMessage(messageArray, message.id);
             default:
-                throw new Error('Unknow event');
+                throw new Error(`Unknow event ${ eventType }`);
         }
     } else if (response.objectType === ObjectType.COMMENT) {
         const eventType: EventType = response.eventType;

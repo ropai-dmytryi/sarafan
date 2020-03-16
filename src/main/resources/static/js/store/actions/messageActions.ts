@@ -7,6 +7,7 @@ import {
     DELETE_MESSAGE,
     UPDATE_MESSAGE,
     HANDLE_WS_RESPONSE,
+    UPDATE_MESSAGES,
 } from 'store/constants/constants';
 import { Dispatch } from 'redux';
 import { addHandler } from 'util/WebSocket';
@@ -14,8 +15,14 @@ import { addHandler } from 'util/WebSocket';
 
 export const getAllMessages = () => async (dispatch: Dispatch) => {
     const response: Response = await fetch(GET_ALL_MESSAGES_URL);
-    const messages = await response.json();
-    dispatch({ type: GET_ALL_MESSAGES, messages });
+    const messagePage = await response.json();
+    dispatch({ type: GET_ALL_MESSAGES, messagePage });
+};
+
+export const getMessagePerPage = (pageNumber: number) => async (dispatch: Dispatch) => {
+    const response: Response = await fetch(GET_ALL_MESSAGES_URL + '?' + 'page=' + pageNumber);
+    const messagePage = await response.json();
+    dispatch({ type: UPDATE_MESSAGES, messagePage });
 };
 
 export const addMessage = ({ text }: IMessage) => async (dispatch: Dispatch) => {
@@ -25,7 +32,6 @@ export const addMessage = ({ text }: IMessage) => async (dispatch: Dispatch) => 
         body: JSON.stringify({ text }),
     });
     const message = await response.json();
-
     dispatch({ type: ADD_MESSAGE, message });
 };
 

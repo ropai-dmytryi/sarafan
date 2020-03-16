@@ -1,14 +1,15 @@
 package sarafan.service;
 
+import org.springframework.data.domain.Pageable;
 import sarafan.domain.Message;
 import sarafan.domain.User;
+import sarafan.dto.MessagePageDto;
 
 import java.io.IOException;
-import java.util.List;
 
 public interface MessageService {
 
-    List<Message> getAll();
+    MessagePageDto getAll(Pageable pageable);
 
     Message create(Message message, User user) throws IOException;
 

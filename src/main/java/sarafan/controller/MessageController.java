@@ -1,6 +1,10 @@
 package sarafan.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import sarafan.domain.Message;
 import sarafan.domain.User;
 import sarafan.domain.Views;
+import sarafan.dto.MessagePageDto;
 import sarafan.exception.AccessDeniedException;
 import sarafan.service.MessageService;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping(MessageController.MESSAGE_MAPPING)
@@ -26,17 +30,21 @@ public class MessageController {
     private static final String ID_PATH_VARIABLE = "id";
     private static final String ID_PARAM = "{" + ID_PATH_VARIABLE + "}";
     public static final String MESSAGE_MAPPING = "message";
+    private static final int MESSAGES_PER_PAGE = 6;
 
     private MessageService messageService;
 
+    @Autowired
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
     }
 
     @GetMapping
     @JsonView(Views.FullMessage.class)
-    public List<Message> list() {
-        return messageService.getAll();
+    public MessagePageDto list(
+            @PageableDefault(size = MESSAGES_PER_PAGE, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return messageService.getAll(pageable);
     }
 
     @PostMapping

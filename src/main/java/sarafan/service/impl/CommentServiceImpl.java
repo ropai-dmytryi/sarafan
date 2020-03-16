@@ -1,5 +1,6 @@
 package sarafan.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sarafan.domain.Comment;
 import sarafan.domain.User;
@@ -18,6 +19,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepo commentRepo;
     private final BiConsumer<EventType, Comment> wsSender;
 
+    @Autowired
     public CommentServiceImpl(CommentRepo commentRepo, WsSender wsSender) {
         this.commentRepo = commentRepo;
         this.wsSender = wsSender.getSender(ObjectType.COMMENT, Views.FullComment.class);
