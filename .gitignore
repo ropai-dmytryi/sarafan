@@ -5,8 +5,7 @@ node_modules
 out
 yarn-error.log
 build
-sarafan.mv.db
-sarafan.trace.db
 package-lock.json
 dist
+/database/sarafanDB.mv.db
 /database/sarafanDB.trace.db
