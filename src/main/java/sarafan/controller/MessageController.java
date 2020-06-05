@@ -27,12 +27,12 @@ import java.io.IOException;
 @RequestMapping(MessageController.MESSAGE_MAPPING)
 public class MessageController {
 
-    private static final String ID_PATH_VARIABLE = "id";
-    private static final String ID_PARAM = "{" + ID_PATH_VARIABLE + "}";
     public static final String MESSAGE_MAPPING = "message";
+    private static final String ID_PARAM = "id";
+    private static final String ID_MAPPING = "{" + ID_PARAM + "}";
     private static final int MESSAGES_PER_PAGE = 6;
 
-    private MessageService messageService;
+    private final MessageService messageService;
 
     @Autowired
     public MessageController(MessageService messageService) {
@@ -53,21 +53,21 @@ public class MessageController {
         return messageService.create(message, user);
     }
 
-    @PutMapping(ID_PARAM)
+    @PutMapping(ID_MAPPING)
     @JsonView(Views.FullMessage.class)
-    public Message update(@PathVariable(ID_PATH_VARIABLE) Message messageFromDb,
+    public Message update(@PathVariable(ID_PARAM) Message messageFromDb,
                           @RequestBody Message message,
                           @AuthenticationPrincipal User user) throws IOException {
-        if (!user.getId().equals(messageFromDb.getAuthor().getId())) {
+        if (!user.equals(messageFromDb.getAuthor())) {
             throw new AccessDeniedException();
         }
         return messageService.update(messageFromDb, message);
     }
 
-    @DeleteMapping(ID_PARAM)
-    public void delete(@PathVariable(ID_PATH_VARIABLE) Message message,
+    @DeleteMapping(ID_MAPPING)
+    public void delete(@PathVariable(ID_PARAM) Message message,
                        @AuthenticationPrincipal User user) {
-        if (!user.getId().equals(message.getAuthor().getId())) {
+        if (!user.equals(message.getAuthor())) {
             throw new AccessDeniedException();
         }
         messageService.delete(message);

@@ -30,11 +30,11 @@ public class MessageServiceImpl implements MessageService {
 
     private static final String YOUTU = "youtu";
     private static final String CONTENT_PARAM = "content";
-    private static String URL_PATTERN = "https?://?[\\w\\d._\\-%/?=&#]+";
-    private static String IMAGE_PATTERN = "\\.(jpeg|jpg|gif|png)$";
+    private static final String URL_PATTERN = "https?://?[\\w\\d._\\-%/?=&#]+";
+    private static final String IMAGE_PATTERN = "\\.(jpeg|jpg|gif|png)$";
 
-    private static Pattern URL_REGEX = Pattern.compile(URL_PATTERN, Pattern.CASE_INSENSITIVE);
-    private static Pattern IMG_REGEX = Pattern.compile(IMAGE_PATTERN, Pattern.CASE_INSENSITIVE);
+    private static final Pattern URL_REGEX = Pattern.compile(URL_PATTERN, Pattern.CASE_INSENSITIVE);
+    private static final Pattern IMG_REGEX = Pattern.compile(IMAGE_PATTERN, Pattern.CASE_INSENSITIVE);
 
     private final MessageRepo messageRepo;
     private final BiConsumer<EventType, Message> wsSender;
