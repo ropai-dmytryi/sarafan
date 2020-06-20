@@ -8,7 +8,7 @@ import {
     ADD_COMMENT,
     UPDATE_MESSAGES,
 } from 'store/constants/constants';
-import { IWsResnponse } from 'model/IWsResponse';
+import { IWsResponse } from 'model/IWsResponse';
 import { ObjectType } from 'model/ObjectTypeEnum';
 import { EventType } from 'model/EventTypeEnum';
 import { IUser } from 'model/IUser';
@@ -88,7 +88,7 @@ const addComment = (messageArray: IMessage[], newComment: IComment) => {
     return [...messageArray];
 };
 
-const handleWsRenponse = (messageArray: IMessage[], response: IWsResnponse) => {
+const handleWsRenponse = (messageArray: IMessage[], response: IWsResponse) => {
     if (response.objectType === ObjectType.MESSAGE) {
         const eventType: EventType = response.eventType;
         const message: IMessage = response.body as IMessage;

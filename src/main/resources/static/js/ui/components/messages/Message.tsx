@@ -14,6 +14,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Media from './media/Media';
 import { IMessage } from 'model/IMessage';
 import CommentList from 'ui/components/comments/CommentList';
+import { Link } from 'react-router-dom';
 
 interface IMessageProps {
   message: IMessage;
@@ -48,6 +49,9 @@ const Message = ({ message, deleteMessage, changeUpdatedMessage, createComment, 
         >
           <Grid item>
             <Avatar alt="Remy Sharp" src={ message.author.userpic } />
+          </Grid>
+          <Grid item>
+            <Link to={ `/user/${ message.author.id }` }>{ message.author.name }</Link>
           </Grid>
           <Grid item>
             <Typography variant="h5" component="h2">

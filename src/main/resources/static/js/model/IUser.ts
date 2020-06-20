@@ -1,9 +1,11 @@
 export interface IUser {
-    id: string;
+    id: number;
     name: string;
-    userpic: string ;
+    userpic: string;
     email: string;
     gender: string;
     locale: string;
     lastVisit: Date;
+    subscriptions: IUser[];
+    subscribers: IUser[];
 }

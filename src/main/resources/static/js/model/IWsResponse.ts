@@ -1,7 +1,7 @@
 import { ObjectType } from './ObjectTypeEnum';
 import { EventType } from './EventTypeEnum';
 
-export interface IWsResnponse {
+export interface IWsResponse {
     objectType: ObjectType;
     eventType: EventType;
     body: any;

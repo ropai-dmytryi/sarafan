@@ -1,6 +1,5 @@
-import { GET_ALL_MESSAGES_URL } from 'store/constants/urlConstant';
 import { IMessage } from 'model/IMessage';
-import { IWsResnponse } from 'model/IWsResponse';
+import { IWsResponse } from 'model/IWsResponse';
 import {
     GET_ALL_MESSAGES,
     ADD_MESSAGE,
@@ -12,6 +11,7 @@ import {
 import { Dispatch } from 'redux';
 import { addHandler } from 'util/WebSocket';
 
+export const GET_ALL_MESSAGES_URL = '/message';
 
 export const getAllMessages = () => async (dispatch: Dispatch) => {
     const response: Response = await fetch(GET_ALL_MESSAGES_URL);
@@ -20,7 +20,7 @@ export const getAllMessages = () => async (dispatch: Dispatch) => {
 };
 
 export const getMessagePerPage = (pageNumber: number) => async (dispatch: Dispatch) => {
-    const response: Response = await fetch(GET_ALL_MESSAGES_URL + '?' + 'page=' + pageNumber);
+    const response: Response = await fetch(GET_ALL_MESSAGES_URL + '?page=' + pageNumber);
     const messagePage = await response.json();
     dispatch({ type: UPDATE_MESSAGES, messagePage });
 };
@@ -36,7 +36,7 @@ export const addMessage = ({ text }: IMessage) => async (dispatch: Dispatch) => 
 };
 
 export const addHeader = () => (dispatch: Dispatch) => {
-    addHandler((response: IWsResnponse) => { dispatch({ type: HANDLE_WS_RESPONSE, response }); }); // handle websocket response from server
+    addHandler((response: IWsResponse) => { dispatch({ type: HANDLE_WS_RESPONSE, response }); }); // handle websocket response from server
 };
 
 export const updateMessage = ({ id, text }: IMessage) => async (dispatch: Dispatch) => {

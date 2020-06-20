@@ -66,7 +66,7 @@ class Feed extends React.Component<IFeedProps, IFeedState> {
     }
 }
 
-const ToolBarComp = ({ user: { name } }: any) => {
+const ToolBarComp = ({ user: { id, name } }: any) => {
     const { root, title } = useStyles({});
     return(
         <div className={ root }>
@@ -75,7 +75,7 @@ const ToolBarComp = ({ user: { name } }: any) => {
                     <Typography variant="h6" className={ title }>
                         Sarafan
                     </Typography>
-                    <Link to={ '/profile' }>{ name }</Link>
+                    <Link to={ `/user/${ id }` }>{ name }</Link>
                     <IconButton href="/logout">
                         <ExitToAppIcon/>
                     </IconButton>
