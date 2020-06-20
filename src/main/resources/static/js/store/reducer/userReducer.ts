@@ -7,7 +7,7 @@ import {
     HANDLE_WS_RESPONSE,
     ADD_COMMENT,
     UPDATE_MESSAGES,
-} from 'store/constants/constants';
+} from 'store/actions/actions';
 import { IWsResponse } from 'model/IWsResponse';
 import { ObjectType } from 'model/ObjectTypeEnum';
 import { EventType } from 'model/EventTypeEnum';
@@ -42,7 +42,7 @@ const userReducer = (state = initialState, action: any) => {
         case DELETE_MESSAGE:
             return {...state, messages: removeMessage(state.messages, action.id)};
         case HANDLE_WS_RESPONSE:
-            return {...state, messages: handleWsRenponse(state.messages, action.response)};
+            return {...state, messages: handleWsResponse(state.messages, action.response)};
         case ADD_COMMENT:
             return {...state, messages: addComment(state.messages, action.comment)};
         default:
@@ -88,7 +88,7 @@ const addComment = (messageArray: IMessage[], newComment: IComment) => {
     return [...messageArray];
 };
 
-const handleWsRenponse = (messageArray: IMessage[], response: IWsResponse) => {
+const handleWsResponse = (messageArray: IMessage[], response: IWsResponse) => {
     if (response.objectType === ObjectType.MESSAGE) {
         const eventType: EventType = response.eventType;
         const message: IMessage = response.body as IMessage;
@@ -100,7 +100,7 @@ const handleWsRenponse = (messageArray: IMessage[], response: IWsResponse) => {
             case EventType.REMOVE:
                 return removeMessage(messageArray, message.id);
             default:
-                throw new Error(`Unknow event ${ eventType }`);
+                throw new Error(`Unknown event ${ eventType }`);
         }
     } else if (response.objectType === ObjectType.COMMENT) {
         const eventType: EventType = response.eventType;
@@ -109,7 +109,7 @@ const handleWsRenponse = (messageArray: IMessage[], response: IWsResponse) => {
             return addComment(messageArray, comment);
         }
     } else {
-        throw new Error('Unknow object type');
+        throw new Error('Unknown object type');
     }
 };
 

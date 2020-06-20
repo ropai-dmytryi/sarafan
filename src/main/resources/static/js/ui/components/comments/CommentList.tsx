@@ -11,7 +11,7 @@ interface ICommentListProps {
 
 class CommentList extends React.Component<ICommentListProps> {
     public render() {
-        const { message: {id, comments}, createComment } = this.props;
+        const { message: { id, comments }, createComment } = this.props;
         const commentsList = comments ? comments : [];
         const formName = 'commentForMessage' + id;
         return (
@@ -25,7 +25,8 @@ class CommentList extends React.Component<ICommentListProps> {
                     ))
                 }
                 <div>
-                    <CommentForm form={ formName } onSubmit={ (values: any) => createComment(values.text, id, formName) }/>
+                    <CommentForm form={ formName }
+                                 onSubmit={ (values: any) => createComment(values.text, id, formName) }/>
                 </div>
             </div>
         );

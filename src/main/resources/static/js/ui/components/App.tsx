@@ -18,7 +18,7 @@ class App extends React.Component<IAppProps> {
             </div>
         ) : (
             <div className="App">
-                <LoginPage />
+                <LoginPage/>
             </div>
         );
 

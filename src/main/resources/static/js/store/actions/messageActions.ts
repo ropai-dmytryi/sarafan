@@ -7,7 +7,7 @@ import {
     UPDATE_MESSAGE,
     HANDLE_WS_RESPONSE,
     UPDATE_MESSAGES,
-} from 'store/constants/constants';
+} from 'store/actions/actions';
 import { Dispatch } from 'redux';
 import { addHandler } from 'util/WebSocket';
 
@@ -36,7 +36,9 @@ export const addMessage = ({ text }: IMessage) => async (dispatch: Dispatch) => 
 };
 
 export const addHeader = () => (dispatch: Dispatch) => {
-    addHandler((response: IWsResponse) => { dispatch({ type: HANDLE_WS_RESPONSE, response }); }); // handle websocket response from server
+    addHandler((response: IWsResponse) => {
+        dispatch({ type: HANDLE_WS_RESPONSE, response });
+    }); // handle websocket response from server
 };
 
 export const updateMessage = ({ id, text }: IMessage) => async (dispatch: Dispatch) => {
@@ -52,5 +54,5 @@ export const updateMessage = ({ id, text }: IMessage) => async (dispatch: Dispat
 
 export const deleteMessage = (id: number) => async (dispatch: Dispatch) => {
     await fetch(GET_ALL_MESSAGES_URL + '/' + id, { method: 'DELETE' });
-    dispatch({type: DELETE_MESSAGE, id});
+    dispatch({ type: DELETE_MESSAGE, id });
 };

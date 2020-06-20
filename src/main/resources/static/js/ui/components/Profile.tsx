@@ -2,13 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { IUser } from 'model/IUser';
 import { CardMedia } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import * as UserActions from 'store/actions/userActions';
 import { bindActionCreators, Dispatch } from 'redux';
 
 interface IProfileProps {
     user: IUser;
-    getUserById: (id: number) => Promise<IUser>;
+    getUserById: (id: number) => any;
     userId: number;
 }
 
@@ -23,11 +23,7 @@ class Profile extends React.Component<IProfileProps, IProfileState> {
     };
 
     public componentDidMount() {
-        console.log('did mount')
         const { userId, user, getUserById } = this.props;
-
-        //const userId = this.props.match.params.id;
-        console.log(userId);
 
         if (userId === user.id) {
             this.setState({ user });
@@ -37,18 +33,21 @@ class Profile extends React.Component<IProfileProps, IProfileState> {
     }
 
     public render() {
-        console.log(this.state)
-        const { userpic, name, locale, email, subscriptions, subscribers } = this.state.user;
-        return(
-            <div>
-                <UserPicture userpic={ userpic }/>
-                <div>{ name }</div>
-                <div>{ locale }</div>
-                <div>{ email }</div>
-                <div>Subscriptions: { subscriptions.length }</div>
-                <div>Subscribers: { subscribers.length }</div>
-            </div>
-        );
+        if (this.state.user != null) {
+            const { userpic, name, locale, email, subscriptions, subscribers } = this.state.user;
+            return (
+                <div>
+                    <UserPicture userpic={ userpic }/>
+                    <div>{ name }</div>
+                    <div>{ locale }</div>
+                    <div>{ email }</div>
+                    <div>Subscriptions: { subscriptions.length }</div>
+                    <div>Subscribers: { subscribers.length }</div>
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
 }
 
@@ -59,18 +58,16 @@ interface IUserPicProps {
 const UserPicture = ({ userpic }: IUserPicProps) => {
     const { igm } = useStyles({});
     return (
-        <CardMedia className={ igm } component="img" src={ userpic } />
+        <CardMedia className={ igm } component="img" src={ userpic }/>
     );
 };
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles({
     igm: {
         width: '20%',
         height: 'auto',
     },
-  }),
-);
+});
 
 const mapStateToProps = (state: any, ownProps: any) => ({
     user: state.userReducer.user,
@@ -78,12 +75,12 @@ const mapStateToProps = (state: any, ownProps: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      getUserById: UserActions.getUserById,
-    },
-    dispatch,
-  );
+    bindActionCreators(
+        {
+            getUserById: UserActions.getUserById,
+        },
+        dispatch,
+    );
 
 export default connect(
     mapStateToProps,

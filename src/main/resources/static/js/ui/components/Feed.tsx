@@ -6,7 +6,7 @@ import Form from './messages/Form';
 import MessageList from './messages/MessageList';
 import { connectToWs } from 'util/WebSocket';
 import { AppBar, Toolbar, Typography, IconButton, Container } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom';
 import { IMessage } from 'model/IMessage';
@@ -68,7 +68,7 @@ class Feed extends React.Component<IFeedProps, IFeedState> {
 
 const ToolBarComp = ({ user: { id, name } }: any) => {
     const { root, title } = useStyles({});
-    return(
+    return (
         <div className={ root }>
             <AppBar position="static" color="default">
                 <Toolbar>
@@ -85,16 +85,14 @@ const ToolBarComp = ({ user: { id, name } }: any) => {
     );
 };
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles({
     root: {
-      flexGrow: 1,
+        flexGrow: 1,
     },
     title: {
-      flexGrow: 1,
+        flexGrow: 1,
     },
-  }),
-);
+});
 
 const mapStateToProps = (state: any) => ({
     user: state.userReducer.user,

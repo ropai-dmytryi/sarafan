@@ -7,5 +7,4 @@ yarn-error.log
 build
 package-lock.json
 dist
-/database/sarafanDB.mv.db
-/database/sarafanDB.trace.db
+/database/

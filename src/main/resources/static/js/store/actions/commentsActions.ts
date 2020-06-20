@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { ADD_COMMENT } from 'store/constants/constants';
+import { ADD_COMMENT } from 'store/actions/actions';
 import { reset } from 'redux-form';
 
 const COMMENT_URL = '/comment';

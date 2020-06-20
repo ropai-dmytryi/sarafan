@@ -18,7 +18,7 @@ ReactDOM.render(
     <Provider store={ store }>
         <Router history={ history }>
             <Switch>
-                <Route exact  path="/" component={ App }/>
+                <Route exact path="/" component={ App }/>
                 <Route path="/user/:id" component={ Profile }/>
             </Switch>
         </Router>
