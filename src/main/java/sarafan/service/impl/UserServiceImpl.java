@@ -2,20 +2,21 @@ package sarafan.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import sarafan.domain.User;
 import sarafan.exception.NotFoundException;
 import sarafan.repo.UserDetailsRepo;
-import sarafan.service.ProfileService;
+import sarafan.service.UserService;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 @Service
-public class ProfileServiceImpl implements ProfileService {
+public class UserServiceImpl implements UserService {
     private final UserDetailsRepo userDetailsRepo;
 
     @Autowired
-    public ProfileServiceImpl(UserDetailsRepo userDetailsRepo) {
+    public UserServiceImpl(UserDetailsRepo userDetailsRepo) {
         this.userDetailsRepo = userDetailsRepo;
     }
 
@@ -34,5 +35,10 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public User getUser(String id) {
         return userDetailsRepo.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+    @Override
+    public List<User> getUsersByName(String name) {
+        return userDetailsRepo.findAllByNameLike("%" + StringUtils.capitalize(name) + "%");
     }
 }

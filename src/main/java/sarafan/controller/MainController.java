@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sarafan.domain.User;
 import sarafan.domain.Views;
-import sarafan.service.ProfileService;
+import sarafan.service.UserService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,11 +23,11 @@ public class MainController {
     private static final String PROFILE_ATTRIBUTE = "profile";
     private static final String FRONTEND_DATA_ATTRIBUTE = "frontendData";
 
-    private final ProfileService profileService;
+    private final UserService userService;
     private final ObjectWriter profileWriter;
 
-    public MainController(ProfileService profileService, ObjectMapper mapper) {
-        this.profileService = profileService;
+    public MainController(UserService userService, ObjectMapper mapper) {
+        this.userService = userService;
         ObjectMapper objectMapper = mapper
                 .setConfig(mapper.getSerializationConfig());
 
@@ -40,7 +40,7 @@ public class MainController {
         Map<Object, Object> data = new HashMap<>();
 
         if (user != null) {
-            User userFromDb = profileService.getUser(user.getId());
+            User userFromDb = userService.getUser(user.getId());
             String serializedProfile = profileWriter.writeValueAsString(userFromDb);
             data.put(PROFILE_ATTRIBUTE, serializedProfile);
         } else {

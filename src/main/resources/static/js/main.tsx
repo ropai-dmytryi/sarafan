@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from 'ui/components/App';
-import Profile from 'ui/components/Profile';
+import Profile from 'ui/components/users/Profile';
 import { createBrowserHistory } from 'history';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -19,7 +19,7 @@ ReactDOM.render(
         <Router history={ history }>
             <Switch>
                 <Route exact path="/" component={ App }/>
-                <Route path="/user/:id" component={ Profile }/>
+                <Route path="/profile/:id" component={ Profile }/>
             </Switch>
         </Router>
     </Provider>,

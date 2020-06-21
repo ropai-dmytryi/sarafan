@@ -3,30 +3,29 @@ package sarafan.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sarafan.domain.User;
 import sarafan.domain.Views;
-import sarafan.service.ProfileService;
+import sarafan.service.UserService;
+
+import java.util.List;
 
 @RestController
-@RequestMapping(ProfileController.PROFILE_MAPPING)
-public class ProfileController {
+@RequestMapping(UserController.USER_MAPPING)
+public class UserController {
 
-    public static final String PROFILE_MAPPING = "profile";
+    public static final String USER_MAPPING = "user";
+    private static final String FILTER_MAPPING = "filter";
     private static final String ID_PARAM = "id";
     private static final String GET_USER_MAPPING = "{" + ID_PARAM +"}";
     private static final String CHANNEL_ID_PARAM = "channelId";
     private static final String CHANGE_SUBSCRIPTION_MAPPING = "change-subscription/{" + CHANNEL_ID_PARAM + "}";
 
-    private final ProfileService profileService;
+    private final UserService userService;
 
     @Autowired
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping(GET_USER_MAPPING)
@@ -44,7 +43,13 @@ public class ProfileController {
         if (subscriber.equals(channel)) {
             return channel;
         } else {
-            return profileService.changeSubscription(channel, subscriber);
+            return userService.changeSubscription(channel, subscriber);
         }
+    }
+
+    @GetMapping(FILTER_MAPPING)
+    @JsonView(Views.IdName.class)
+    public List<User> getUsersByName(@RequestParam String name) {
+        return userService.getUsersByName(name);
     }
 }

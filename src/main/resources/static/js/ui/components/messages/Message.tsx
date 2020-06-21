@@ -51,7 +51,7 @@ const Message = ({ message, deleteMessage, changeUpdatedMessage, createComment, 
                         <Avatar alt="Remy Sharp" src={ message.author.userpic }/>
                     </Grid>
                     <Grid item>
-                        <Link to={ `/user/${ message.author.id }` }>{ message.author.name }</Link>
+                        <Link to={ `/profile/${ message.author.id }` }>{ message.author.name }</Link>
                     </Grid>
                     <Grid item>
                         <Typography variant="h5" component="h2">

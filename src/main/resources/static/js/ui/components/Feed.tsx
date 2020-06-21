@@ -2,8 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as MessageActions from 'store/actions/messageActions';
-import Form from './messages/Form';
-import MessageList from './messages/MessageList';
+import Form from 'ui/components/messages/Form';
+import MessageList from 'ui/components/messages/MessageList';
 import { connectToWs } from 'util/WebSocket';
 import { AppBar, Toolbar, Typography, IconButton, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,12 +11,15 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom';
 import { IMessage } from 'model/IMessage';
 import { IUser } from 'model/IUser';
+import { FindByName } from 'ui/components/users/FindByName';
+import * as UserActions from 'store/actions/userActions';
 
 interface IFeedProps {
     user: IUser;
     addMessage: (message: IMessage) => void;
     updateMessage: (message: IMessage) => void;
     addHeader: () => void;
+    getUserByName: (userName: string) => any;
 }
 
 interface IFeedState {
@@ -45,7 +48,7 @@ class Feed extends React.Component<IFeedProps, IFeedState> {
     }
 
     public render() {
-        const { addMessage, user } = this.props;
+        const { addMessage, user, getUserByName } = this.props;
         const { updatedMessage } = this.state;
         const updateMessage = (updatedMessage: IMessage) => this.updateMessageAndCleanUpdatedMessage(updatedMessage);
         const changeUpdatedMessage = (updatedMessage: IMessage) => this.setUpdatedMessage(updatedMessage);
@@ -56,7 +59,7 @@ class Feed extends React.Component<IFeedProps, IFeedState> {
 
         return (
             <div>
-                <ToolBarComp user={ user }/>
+                <ToolBarComp user={ user } getUserByName={ getUserByName }/>
                 <Container style={ { marginTop: 40 } }>
                     { form }
                 </Container>
@@ -66,7 +69,7 @@ class Feed extends React.Component<IFeedProps, IFeedState> {
     }
 }
 
-const ToolBarComp = ({ user: { id, name } }: any) => {
+const ToolBarComp = ({ user: { id, name }, getUserByName }: any) => {
     const { root, title } = useStyles({});
     return (
         <div className={ root }>
@@ -75,7 +78,8 @@ const ToolBarComp = ({ user: { id, name } }: any) => {
                     <Typography variant="h6" className={ title }>
                         Sarafan
                     </Typography>
-                    <Link to={ `/user/${ id }` }>{ name }</Link>
+                    <FindByName getUserByName={ getUserByName }/>
+                    <Link to={ `/profile/${ id }` }>{ name }</Link>
                     <IconButton href="/logout">
                         <ExitToAppIcon/>
                     </IconButton>
@@ -102,6 +106,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     addMessage: MessageActions.addMessage,
     updateMessage: MessageActions.updateMessage,
     addHeader: MessageActions.addHeader,
+    getUserByName: UserActions.getUserByName,
 }, dispatch);
 
 export default connect(
