@@ -13,3 +13,4 @@ export const ADD_COMMENT = 'ADD_COMMENT';
 
 // User actions
 export const GET_USER = 'GET_USER';
+export const CHANGE_SUBSCRIPTION = 'CHANGE_SUBSCRIPTION';

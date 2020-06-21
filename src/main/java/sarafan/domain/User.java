@@ -23,7 +23,6 @@ import java.util.Set;
 @Table(name = "usr")
 @Data
 @EqualsAndHashCode(of = { "id" })
-@ToString(of = { "id", "name" })
 public class User {
     @Id
     @JsonView(Views.IdName.class)
@@ -42,7 +41,8 @@ public class User {
     private LocalDateTime lastVisit;
 
     @ManyToMany
-    @JoinTable(name = "user_subscriptions",
+    @JoinTable(
+            name = "user_subscriptions",
             joinColumns = @JoinColumn(name = "subscriber_id"),
             inverseJoinColumns = @JoinColumn(name = "channel_id")
     )
@@ -55,7 +55,8 @@ public class User {
     private Set<User> subscriptions = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "user_subscriptions",
+    @JoinTable(
+            name = "user_subscriptions",
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "subscriber_id")
     )

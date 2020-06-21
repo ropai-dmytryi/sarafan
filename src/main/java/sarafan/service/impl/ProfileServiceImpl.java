@@ -3,9 +3,11 @@ package sarafan.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sarafan.domain.User;
+import sarafan.exception.NotFoundException;
 import sarafan.repo.UserDetailsRepo;
 import sarafan.service.ProfileService;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -18,7 +20,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public User changeSubscription(User subscriber, User channel) {
+    public User changeSubscription(User channel, User subscriber) {
         Set<User> subscribers = channel.getSubscribers();
 
         if (subscribers.contains(subscriber)) {
@@ -27,5 +29,10 @@ public class ProfileServiceImpl implements ProfileService {
             subscribers.add(subscriber);
         }
         return userDetailsRepo.save(channel);
+    }
+
+    @Override
+    public User getUser(String id) {
+        return userDetailsRepo.findById(id).orElseThrow(NotFoundException::new);
     }
 }

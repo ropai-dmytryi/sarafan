@@ -4,4 +4,6 @@ import sarafan.domain.User;
 
 public interface ProfileService {
     User changeSubscription(User subscriber, User channel);
+
+    User getUser(String id);
 }

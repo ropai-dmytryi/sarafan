@@ -7,6 +7,7 @@ import {
     HANDLE_WS_RESPONSE,
     ADD_COMMENT,
     UPDATE_MESSAGES,
+    CHANGE_SUBSCRIPTION,
 } from 'store/actions/actions';
 import { IWsResponse } from 'model/IWsResponse';
 import { ObjectType } from 'model/ObjectTypeEnum';
@@ -23,7 +24,7 @@ const initialState: {
     totalPages: number;
 } = {
     messages: [],
-    user: frontendData.profile,
+    user: JSON.parse(frontendData.profile),
     currentPage: 0,
     totalPages: 0,
 };
@@ -45,6 +46,8 @@ const userReducer = (state = initialState, action: any) => {
             return {...state, messages: handleWsResponse(state.messages, action.response)};
         case ADD_COMMENT:
             return {...state, messages: addComment(state.messages, action.comment)};
+        case CHANGE_SUBSCRIPTION:
+            return {...state, user: changeSubscription(state.user, action.subscription)};
         default:
             return state;
     }
@@ -111,6 +114,19 @@ const handleWsResponse = (messageArray: IMessage[], response: IWsResponse) => {
     } else {
         throw new Error('Unknown object type');
     }
+};
+
+const changeSubscription = (user: IUser, subscription: IUser) => {
+    const subscriptions = user.subscriptions;
+
+    const index = subscriptions.findIndex((user: IUser) => user.id === subscription.id);
+    if (index === -1) {
+        subscriptions.push(subscription);
+    } else {
+        subscriptions.splice(index, 1);
+    }
+    JSON.parse(frontendData.profile).subscriptions = subscriptions;
+    return user;
 };
 
 export default userReducer;
