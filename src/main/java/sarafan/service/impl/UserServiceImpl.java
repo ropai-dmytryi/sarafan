@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import sarafan.domain.User;
-import sarafan.exception.NotFoundException;
+import sarafan.exception.ResourceNotFoundException;
 import sarafan.repo.UserDetailsRepo;
 import sarafan.service.UserService;
 
@@ -34,7 +34,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String id) {
-        return userDetailsRepo.findById(id).orElseThrow(NotFoundException::new);
+        return userDetailsRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("User with id {%s} not found", id)));
     }
 
     @Override
