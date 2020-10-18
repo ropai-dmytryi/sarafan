@@ -25,7 +25,7 @@ interface IMessageProps {
 }
 
 const Message = ({ message, deleteMessage, changeUpdatedMessage, createComment, isAuthor }: IMessageProps) => {
-    const { card } = useStyles({});
+    const { card } = useStyles();
     const link = message.link ? (<Media message={ message }/>) : null;
 
     const actions = isAuthor ?

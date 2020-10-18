@@ -70,7 +70,7 @@ class Feed extends React.Component<IFeedProps, IFeedState> {
 }
 
 const ToolBarComp = ({ user: { id, name }, getUserByName }: any) => {
-    const { root, title } = useStyles({});
+    const { root, title } = useStyles();
     return (
         <div className={ root }>
             <AppBar position="static" color="default">

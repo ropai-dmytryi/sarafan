@@ -7,4 +7,3 @@ yarn-error.log
 build
 package-lock.json
 dist
-/database/

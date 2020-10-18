@@ -71,7 +71,7 @@ interface IUserPicProps {
 }
 
 const UserPicture = ({ userpic }: IUserPicProps) => {
-    const { igm } = useStyles({});
+    const { igm } = useStyles();
     return (
         <CardMedia className={ igm } component="img" src={ userpic }/>
     );

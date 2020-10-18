@@ -13,6 +13,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private static final String TOPIC_PREFIX = "/topic";
     private static final String APP_PREFIX = "/app";
     private static final String GS_WEBSOCKET_MAPPING = "/gs-websocket";
+    private static final String WS_CHAT_MAPPING = "/ws-chat";
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -22,6 +23,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint(GS_WEBSOCKET_MAPPING).withSockJS();
+        registry.addEndpoint(GS_WEBSOCKET_MAPPING, WS_CHAT_MAPPING).withSockJS();
     }
 }
